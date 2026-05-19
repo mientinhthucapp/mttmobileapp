@@ -1,0 +1,197 @@
+/* ============================================================
+   Miền Tỉnh Thức — Design Tokens
+   Calm, warm, mindful. Mobile-first. Vietnamese UI.
+   ============================================================ */
+
+/* ─── Bundled brand fonts ─────────────────────────────────────
+   Roboto is shipped locally as a variable font (wdth + wght).
+   NOTE: the MVP01 brief specifies Plus Jakarta Sans as the
+   primary family. The uploaded files are Roboto, which is a
+   different family. Until that's reconciled, this stylesheet
+   loads BOTH — Plus Jakarta Sans from Google Fonts as the
+   declared brand primary, and Roboto locally as an alternate.
+   Swap `--font-display` / `--font-body` if Roboto should win.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap");
+
+:root {
+  /* ---------- Brand ---------- */
+  --mtt-brand-blue: #006384;        /* Primary — calm oceanic */
+  --mtt-brand-blue-hover: #007ea6;
+  --mtt-brand-blue-soft: #c1e8ff;
+  --mtt-brand-orange: #e57321;      /* Logo warm — sunrise */
+  --mtt-brand-orange-deep: #b85b00;
+  --mtt-brand-orange-soft: #ffdcc7;
+
+  /* ---------- Semantic colors ---------- */
+  --primary: #006384;
+  --primary-hover: #007ea6;
+  --primary-soft: #c1e8ff;
+  --on-primary: #ffffff;
+
+  --secondary: #5a5f65;
+  --secondary-soft: #dee3ea;
+  --on-secondary: #ffffff;
+
+  --accent-warm: #b85b00;
+  --accent-warm-soft: #ffdcc7;
+  --on-accent-warm: #ffffff;
+
+  /* Fresh, jubilant accents — for energy beats */
+  --accent-spring: #2EBE76;       /* bright leaf green */
+  --accent-spring-soft: #C9F2DA;
+  --accent-coral: #FF6B7E;        /* warm coral pink */
+  --accent-coral-soft: #FFD8DD;
+  --accent-sky: #29B6F6;          /* bright sky cyan */
+  --accent-sky-soft: #C8ECFC;
+  --accent-sun: #FFC247;          /* sunny yellow */
+  --accent-sun-soft: #FFEBC0;
+
+  /* Surfaces */
+  --background: #FFFDF9;          /* warm daylight white */
+  --background-tint: #F0F7FF;     /* gentle sky tint for layered surfaces */
+  --on-background: #071d30;
+  --surface: #ffffff;
+  --surface-soft: #F2F8FF;
+  --surface-muted: #E1EFFF;
+  --surface-strong: #C7E4FF;
+  --on-surface: #071d30;
+  --on-surface-muted: #3e484e;
+
+  /* Outline / state */
+  --outline: #6f787f;
+  --outline-soft: #bec8cf;
+  --success: #2e7d32;
+  --success-soft: #d7f0d7;
+  --warning: #b85b00;
+  --error: #ba1a1a;
+  --error-soft: #ffdad6;
+  --on-error: #ffffff;
+
+  /* Foreground levels (semantic for text) */
+  --fg-1: #071d30;      /* primary text */
+  --fg-2: #3e484e;      /* secondary text */
+  --fg-3: #6f787f;      /* tertiary / metadata */
+  --fg-on-color: #ffffff;
+  --fg-on-soft: #006384;
+
+  /* ---------- Type ---------- */
+  --font-display: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Alternate: Roboto is bundled in /fonts and ready if the brand pivots. */
+  --font-alt-roboto: "Roboto", system-ui, -apple-system, sans-serif;
+
+  /* Type scale (matches MVP01 spec) */
+  --type-display-lg: 700 40px/1.2 var(--font-display);
+  --type-display-lg-tracking: -0.02em;
+
+  --type-headline-lg: 700 30px/1.25 var(--font-display);
+  --type-headline-lg-tracking: -0.01em;
+
+  --type-headline-md: 600 24px/1.35 var(--font-display);
+  --type-title-lg: 600 20px/1.4 var(--font-display);
+  --type-title-md: 600 18px/1.4 var(--font-display);
+
+  --type-body-lg: 400 18px/1.6 var(--font-body);
+  --type-body-md: 400 16px/1.6 var(--font-body);
+  --type-body-sm: 400 14px/1.55 var(--font-body);
+
+  --type-label-md: 600 14px/1.25 var(--font-body);
+  --type-label-md-tracking: 0.01em;
+
+  --type-caption: 400 12px/1.35 var(--font-body);
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 0.25rem;   /*  4px */
+  --radius-sm: 0.5rem;    /*  8px */
+  --radius-md: 0.75rem;   /* 12px */
+  --radius-lg: 1rem;      /* 16px */
+  --radius-xl: 1.5rem;    /* 24px */
+  --radius-xxl: 2rem;     /* 32px */
+  --radius-full: 9999px;
+
+  /* ---------- Spacing ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --screen-pad-mobile: 16px;
+  --screen-pad-tablet: 24px;
+  --screen-pad-desktop: 48px;
+  --bottom-nav-height: 72px;
+  --container-max: 1200px;
+
+  /* ---------- Elevation (soft, ambient, never harsh) ---------- */
+  --shadow-soft: 0 10px 30px rgba(7, 29, 48, 0.06);
+  --shadow-card: 0 12px 32px rgba(7, 29, 48, 0.08);
+  --shadow-floating: 0 16px 48px rgba(7, 29, 48, 0.12);
+  --shadow-button-primary: 0 8px 24px rgba(0, 99, 132, 0.20);
+  --shadow-button-warm: 0 8px 24px rgba(229, 115, 33, 0.22);
+  --shadow-focus-ring: 0 0 0 4px rgba(0, 99, 132, 0.18);
+
+  /* ---------- Motion ---------- */
+  --dur-fast: 150ms;
+  --dur-normal: 220ms;
+  --dur-slow: 360ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ============================================================
+   Element defaults
+   ============================================================ */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--on-background);
+  font: var(--type-body-md);
+  font-family: var(--font-body);
+}
+
+/* Semantic text classes / element defaults */
+.t-display, h1.display { font: var(--type-display-lg); letter-spacing: var(--type-display-lg-tracking); color: var(--fg-1); }
+.t-headline-lg, h1 { font: var(--type-headline-lg); letter-spacing: var(--type-headline-lg-tracking); color: var(--fg-1); margin: 0; }
+.t-headline-md, h2 { font: var(--type-headline-md); color: var(--fg-1); margin: 0; }
+.t-title-lg,    h3 { font: var(--type-title-lg);    color: var(--fg-1); margin: 0; }
+.t-title-md,    h4 { font: var(--type-title-md);    color: var(--fg-1); margin: 0; }
+.t-body-lg          { font: var(--type-body-lg); color: var(--fg-1); }
+.t-body-md, p       { font: var(--type-body-md); color: var(--fg-1); margin: 0; }
+.t-body-sm          { font: var(--type-body-sm); color: var(--fg-2); }
+.t-label            { font: var(--type-label-md); letter-spacing: var(--type-label-md-tracking); color: var(--fg-2); }
+.t-caption          { font: var(--type-caption); color: var(--fg-3); }
+.t-eyebrow          { font: var(--type-label-md); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-3); }
+.t-muted            { color: var(--fg-2); }
+.t-dim              { color: var(--fg-3); }
+.t-primary          { color: var(--primary); }
+.t-warm             { color: var(--accent-warm); }
+
+/* Icon font helper */
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 24px;
+  user-select: none;
+  line-height: 1;
+}
+.icon-filled {
+  font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+}
+
+/* Focus state — gentle ring, never harsh */
+:where(button, a, input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-ring);
+  border-radius: var(--radius-sm);
+}
