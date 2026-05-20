@@ -72,16 +72,17 @@ function SplashScreen({ onContinue }) {
 function WelcomeScreen({ onSignup, onLogin }) {
   const [agreed, setAgreed] = useStateAuth(false);
   return (
-    <Screen noBottomPad topSafe={false}>
+    <Screen noBottomPad topSafe={false} bg="#FFF6E5">
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%)',
+      }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60%', zIndex: 0, pointerEvents: 'none',
+        backgroundImage: 'radial-gradient(circle at 72% 32%, rgba(255,194,71,0.65), transparent 50%), radial-gradient(circle at 22% 60%, rgba(94,179,232,0.45), transparent 55%), radial-gradient(circle at 50% 12%, rgba(255,107,126,0.30), transparent 45%)',
+      }} />
       <div style={{
-        height: 320, width: '100%', position: 'relative',
-        background: 'linear-gradient(180deg, #FFE8B5 0%, #FFC78A 35%, #FFAB6A 60%, #FFD8C0 100%)',
+        height: 320, width: '100%', position: 'relative', zIndex: 1,
         overflow: 'hidden',
       }}>
-        <div style={{ position: 'absolute', inset: 0,
-          background: 'radial-gradient(circle at 50% 52%, rgba(255,236,180,0.95), transparent 45%), radial-gradient(circle at 25% 80%, rgba(143,210,150,0.55), transparent 55%), radial-gradient(circle at 80% 30%, rgba(255,107,126,0.30), transparent 45%)' }} />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 80,
-          background: 'linear-gradient(180deg, transparent, var(--background))' }} />
         <img
           src="assets/logo-mark.png"
           alt=""
@@ -96,10 +97,10 @@ function WelcomeScreen({ onSignup, onLogin }) {
           }}
         />
       </div>
-      <div style={{ flex: 1, padding: '18px 24px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18 }}>
+      <div style={{ flex: 1, padding: '18px 24px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, position: 'relative', zIndex: 1 }}>
         <h1 style={{ font: '700 30px var(--font-display)', color: 'var(--primary)', margin: 0, letterSpacing: '-0.01em' }}>Miền Tỉnh Thức</h1>
         <p style={{ font: '400 15px/1.55 var(--font-body)', color: 'var(--fg-2)', textAlign: 'center', margin: 0, maxWidth: 320 }}>
-          Cùng nuôi dưỡng sự tỉnh thức qua thiền tập, pháp thoại và những hoạt động cộng đồng.
+          Cộng đồng của những người thực hành Thiền và Tâm lý chữa lành nhằm xây dựng đời sống tỉnh thức, đời sống với giá trị Thật-Lành-Đẹp.
         </p>
         <div style={{ flex: 1 }} />
         <div style={{ width: '100%' }}>
@@ -108,13 +109,8 @@ function WelcomeScreen({ onSignup, onLogin }) {
           </Checkbox>
         </div>
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <PrimaryButton variant="warm" onClick={onSignup} disabled={!agreed}>Đăng ký</PrimaryButton>
-          <button onClick={onLogin} style={{
-            width: '100%', minHeight: 52, padding: '0 24px',
-            background: 'transparent', color: '#E57321',
-            border: '2px solid #E57321', borderRadius: 9999,
-            font: '700 16px var(--font-body)', cursor: 'pointer',
-          }}>Đăng nhập</button>
+          <PrimaryButton onClick={onSignup} disabled={!agreed}>Đăng ký</PrimaryButton>
+          <SecondaryButton onClick={onLogin}>Đăng nhập</SecondaryButton>
         </div>
       </div>
     </Screen>
@@ -288,7 +284,7 @@ function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
 // ═══ 07. Basic onboarding (interest chips) ═════════════════════════
 function OnboardingScreen({ onFinish, onSkip }) {
   const [selected, setSelected] = useStateAuth(new Set(['Thiền tập']));
-  const options = ['Thiền tập', 'Pháp thoại', 'Sự kiện cộng đồng', 'Khóa học', 'Nhật ký thực tập', 'Cộng đồng'];
+  const options = ['Thiền tập', 'Pháp thoại', 'Sự kiện cộng đồng', 'Kỹ năng sống', 'Nhật ký thực tập', 'Tâm lý chữa lành', 'Âm nhạc thư giãn'];
   const toggle = (opt) => {
     const next = new Set(selected);
     if (next.has(opt)) next.delete(opt); else next.add(opt);
