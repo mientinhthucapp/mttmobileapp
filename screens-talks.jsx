@@ -436,7 +436,7 @@ function PlaylistDetailsScreen({ playlist, onBack, onOpenContent, onNavigate }) 
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, padding: '8px 4px 20px' }}>
           <ImageTile tint={p.tint} icon={p.icon} size={108} radius={20} />
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ font: '700 11px var(--font-body)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 6 }}>DANH SÁCH PHÁT</div>
+            <div style={{ font: '700 11px var(--font-body)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 6 }}>PLAYLIST</div>
             <h1 style={{ font: '700 22px/1.2 var(--font-display)', color: 'var(--fg-1)', margin: '0 0 6px', letterSpacing: '-0.01em' }}>{p.title}</h1>
             <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>{items.length} nội dung · 42 phút</div>
           </div>

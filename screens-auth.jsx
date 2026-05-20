@@ -59,7 +59,7 @@ function SplashScreen({ onContinue }) {
         <Icon name="spa" size={48} style={{ color: 'rgba(184,91,0,0.18)' }} />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)', animation: 'mtt-pulse 1.6s ease-in-out infinite' }} />
-          <span style={{ font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--fg-3)' }}>ĐANG KHỞI TẠO…</span>
+          <span style={{ font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--fg-3)' }}>Loading…</span>
         </div>
         <button onClick={onContinue} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', background: 'transparent', border: 0 }} aria-label="Tap to continue" />
       </div>
@@ -213,16 +213,16 @@ function SignupEmailScreen({ onContinue, onLogin, onBack }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'flex', gap: 12 }}>
             <div style={{ flex: '1 1 0', minWidth: 0 }}>
-              <TextField label="Họ" value={vals.last} onChange={set('last')} placeholder="Nguyễn" />
+              <TextField label="Họ" value={vals.last} onChange={set('last')} required placeholder="Nguyễn" />
             </div>
             <div style={{ flex: '1 1 0', minWidth: 0 }}>
-              <TextField label="Tên" value={vals.first} onChange={set('first')} placeholder="An" />
+              <TextField label="Tên" value={vals.first} onChange={set('first')} required placeholder="An" />
             </div>
           </div>
-          <TextField label="Email" value={vals.email} onChange={set('email')} placeholder="email@example.com" type="email" />
+          <TextField label="Email" value={vals.email} onChange={set('email')} required placeholder="email@example.com" type="email" />
           <TextField label="Số điện thoại" value={vals.phone} onChange={set('phone')} placeholder="090 123 4567" type="tel" />
-          <TextField label="Mật khẩu" value={vals.pw} onChange={set('pw')} placeholder="••••••••" type="password" />
-          <TextField label="Xác nhận mật khẩu" value={vals.confirm} onChange={set('confirm')} placeholder="••••••••" type="password" />
+          <TextField label="Mật khẩu" value={vals.pw} onChange={set('pw')} required placeholder="••••••••" type="password" />
+          <TextField label="Xác nhận mật khẩu" value={vals.confirm} onChange={set('confirm')} required placeholder="••••••••" type="password" />
         </div>
         <p style={{ font: '400 13px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '18px 0' }}>
           Bằng cách nhấn tiếp tục, bạn đồng ý với <strong style={{ color: 'var(--primary)' }}>điều khoản &amp; điều kiện</strong> và <strong style={{ color: 'var(--primary)' }}>chính sách bảo mật</strong> của đoàn thể.

@@ -13,7 +13,7 @@ function HomeScreen({ onOpenEvent, onProfile, onNotifications, onOpenTalk, onNav
       <ScrollArea padding="0 16px 12px">
         {/* Subtitle */}
         <p style={{ font: '400 14px/1.5 var(--font-body)', color: 'var(--fg-2)', margin: '0 4px 16px' }}>
-          "Hít thở sâu, có mặt, và tận hưởng khoảnh khắc hiện tại."
+          "Hít thở sâu, có mặt, và tận hưởng khoảnh khắc hiện tại"
         </p>
 
         {/* Featured talk */}
@@ -383,8 +383,8 @@ function ShareBtn({ icon, label, color }) {
 // ═══ 11. Register form ═════════════════════════════════════════════
 function RegisterEventScreen({ onSubmit, onBack }) {
   const [vals, setVals] = useStateEv({
-    last: 'Nguyễn', first: 'An Nhiên',
-    email: 'annhien@example.com', phone: '0400 123 456',
+    last: 'Nguyen', first: 'An Nhiên',
+    email: 'annhienn@example.com', phone: '0400 123 456',
     visited: 'no', needs: '', notes: '',
   });
   const [agreed, setAgreed] = useStateEv(true);
@@ -415,9 +415,13 @@ function RegisterEventScreen({ onSubmit, onBack }) {
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            <TextField label="Họ" value={vals.last} onChange={set('last')} required />
-            <TextField label="Tên" value={vals.first} onChange={set('first')} required />
+          <div style={{ display: 'flex', gap: 12 }}>
+            <div style={{ flex: '1 1 0', minWidth: 0 }}>
+              <TextField label="Họ" value={vals.last} onChange={set('last')} required />
+            </div>
+            <div style={{ flex: '1 1 0', minWidth: 0 }}>
+              <TextField label="Tên" value={vals.first} onChange={set('first')} required />
+            </div>
           </div>
           <TextField label="Email" value={vals.email} onChange={set('email')} type="email" required />
           <TextField label="Số điện thoại" value={vals.phone} onChange={set('phone')} type="tel" required />

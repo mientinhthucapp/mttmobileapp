@@ -16,44 +16,21 @@ function MoreScreen({ onCheckin, onContact, onCourses, onSaved, onPlaylists, onM
           Các chức năng khác của ứng dụng.
         </p>
 
-        <SectionHeader title="Cộng đồng" />
+        <SectionHeader title="Tính năng khác" />
         <SettingsCard>
           <SettingsItem icon="qr_code_scanner" iconBg="#C1E8FF" iconColor="#006384" title="Check-in sự kiện" subtitle="Quét QR khi đến nơi" onClick={onCheckin} />
           <Divider />
-          <SettingsItem icon="chat_bubble" iconBg="#FFDCC7" iconColor="#B85B00" title="Liên lạc" subtitle="Email, Zalo, Viber, Facebook" onClick={onContact} />
-          <Divider />
-          <SettingsItem icon="school" iconBg="#DCD0E8" iconColor="#5C3F86" title="Khóa học" subtitle="Các khoá tu, lớp học sắp tới" onClick={onCourses} />
+          <SettingsItem icon="chat_bubble" iconBg="#FFDCC7" iconColor="#B85B00" title="Liên hệ" subtitle="Email, Zalo, Viber, Facebook" onClick={onContact} />          
         </SettingsCard>
 
-        <div style={{ height: 22 }} />
-        <SectionHeader title="Nội dung của tôi" />
-        <SettingsCard>
-          <SettingsItem icon="bookmark" iconBg="#FFE5D0" iconColor="#E57321" title="Nội dung đã lưu" subtitle="Video & audio bookmarks" onClick={onSaved} />
-          <Divider />
-          <SettingsItem icon="queue_music" iconBg="#C1E8FF" iconColor="#006384" title="Playlists" subtitle="3 danh sách" onClick={onPlaylists} />
-          <Divider />
-          <SettingsItem icon="event_available" iconBg="#D7F0D7" iconColor="#2E7D32" title="Sự kiện của tôi" subtitle="Mã QR và lịch tham dự" onClick={onMyEvents} />
-        </SettingsCard>
-
-        <div style={{ height: 22 }} />
-        <SectionHeader title="Tài khoản & hỗ trợ" />
-        <SettingsCard>
-          <SettingsItem icon="settings" title="Cài đặt" onClick={onSettings} />
-          <Divider />
-          <SettingsItem icon="privacy_tip" title="Quyền riêng tư" onClick={onPrivacy} />
-          <Divider />
-          <SettingsItem icon="help_outline" title="Hỗ trợ" onClick={onSupport} />
-          <Divider />
-          <SettingsItem icon="info" title="Giới thiệu ứng dụng" onClick={onAbout} />
-        </SettingsCard>
 
         <div style={{ height: 26 }} />
-        <SectionHeader title="Sắp ra mắt" />
+        <SectionHeader title="Tính năng sắp ra mắt" />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <ComingSoonTile icon="self_improvement" label="Thiền tập hằng ngày" tint="mint" />
           <ComingSoonTile icon="edit_note" label="Nhật ký thực tập" tint="sand" />
-          <ComingSoonTile icon="groups" label="Nhóm sinh hoạt" tint="sky" />
-          <ComingSoonTile icon="school" label="Khóa học" tint="plum" />
+          <ComingSoonTile icon="groups" label="Mindfulness Bell" tint="sky" />
+          <ComingSoonTile icon="school" label="Vấn đáp về tâm lý" tint="plum" />
         </div>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
