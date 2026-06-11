@@ -1,4 +1,4 @@
-/* global React, ReactDOM, IOSDevice,
+/* global React, ReactDOM, IOSDevice, LanguageProvider, useI18n,
    SplashScreen, WelcomeScreen, SignupChooserScreen, LoginScreen, SignupEmailScreen,
    ForgotPasswordScreen, OnboardingScreen,
    HomeScreen, EventsScreen, EventDetailsScreen, RegisterEventScreen,
@@ -11,66 +11,13 @@
 
 const { useState } = React;
 
-// Friendly screen labels organized by flow
+// Screen keys organized by flow — labels come from the i18n dictionary (proto.*)
 const FLOWS = [
-  {
-    title: 'Đăng nhập & Onboarding',
-    screens: [
-      ['splash',         'Splash'],
-      ['welcome',        'Chào mừng'],
-      ['signup',         'Đăng ký'],
-      ['signupEmail',    'Đăng ký · Email'],
-      ['login',          'Đăng nhập'],
-      ['forgot',         'Quên mật khẩu'],
-      ['onboarding',     'Giới thiệu nhanh'],
-    ],
-  },
-  {
-    title: 'Trang chủ & Sự kiện',
-    screens: [
-      ['home',           'Trang chủ'],
-      ['events',         'Danh sách sự kiện'],
-      ['eventDetails',   'Chi tiết sự kiện'],
-      ['register',       'Đăng ký sự kiện'],
-      ['confirmation',   'Xác nhận đăng ký'],
-      ['qrCode',         'Mã QR sự kiện'],
-      ['myEvents',       'Sự kiện của tôi'],
-    ],
-  },
-  {
-    title: 'Dharma Talks',
-    screens: [
-      ['talks',          'Thư viện Talks'],
-      ['contentList',    'Danh sách nội dung'],
-      ['contentDetails', 'Chi tiết nội dung'],
-      ['saved',          'Đã lưu'],
-      ['playlists',      'Playlists'],
-      ['playlistDetails','Chi tiết danh sách'],
-    ],
-  },
-  {
-    title: 'Thông báo',
-    screens: [
-      ['notif',          'Thông báo'],
-      ['notifDetails',   'Chi tiết thông báo'],
-      ['notifSettings',  'Cài đặt thông báo'],
-    ],
-  },
-  {
-    title: 'Thêm & Hồ sơ',
-    screens: [
-      ['more',           'Thêm'],
-      ['checkin',        'Check-in'],
-      ['contact',        'Liên lạc'],
-      ['profile',        'Hồ sơ'],
-      ['viewProfile',    'Hồ sơ cá nhân'],
-      ['editProfile',    'Chỉnh sửa hồ sơ'],
-      ['settings',       'Cài đặt'],
-      ['privacy',        'Quyền riêng tư'],
-      ['support',        'Hỗ trợ'],
-      ['about',          'Giới thiệu'],
-    ],
-  },
+  { titleKey: 'proto.flows.auth',  screens: ['splash', 'welcome', 'signup', 'signupEmail', 'login', 'forgot', 'onboarding'] },
+  { titleKey: 'proto.flows.home',  screens: ['home', 'events', 'eventDetails', 'register', 'confirmation', 'qrCode', 'myEvents'] },
+  { titleKey: 'proto.flows.talks', screens: ['talks', 'contentList', 'contentDetails', 'saved', 'playlists', 'playlistDetails'] },
+  { titleKey: 'proto.flows.notif', screens: ['notif', 'notifDetails', 'notifSettings'] },
+  { titleKey: 'proto.flows.more',  screens: ['more', 'checkin', 'contact', 'profile', 'viewProfile', 'editProfile', 'settings', 'privacy', 'support', 'about'] },
 ];
 
 function App() {
@@ -161,11 +108,11 @@ function App() {
 }
 
 function Header({ current }) {
+  const { t } = useI18n();
   // Find the label for the current screen
   let label = current;
   for (const f of FLOWS) {
-    const hit = f.screens.find(s => s[0] === current);
-    if (hit) { label = hit[1]; break; }
+    if (f.screens.includes(current)) { label = t('proto.screens.' + current); break; }
   }
   return (
     <div style={{ width: '100%', maxWidth: 720, textAlign: 'center' }}>
@@ -178,6 +125,7 @@ function Header({ current }) {
 }
 
 function Sidebar({ current, onChoose }) {
+  const { t } = useI18n();
   return (
     <aside style={{
       borderRight: '1px solid rgba(190,200,207,0.4)',
@@ -195,13 +143,14 @@ function Sidebar({ current, onChoose }) {
         </div>
       </div>
       {FLOWS.map(flow => (
-        <div key={flow.title} style={{ marginBottom: 18 }}>
+        <div key={flow.titleKey} style={{ marginBottom: 18 }}>
           <div style={{
             font: '700 10px var(--font-body)', letterSpacing: '0.18em', textTransform: 'uppercase',
             color: 'var(--fg-3)', padding: '0 8px 8px',
-          }}>{flow.title}</div>
+          }}>{t(flow.titleKey)}</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {flow.screens.map(([key, label]) => {
+            {flow.screens.map(key => {
+              const label = t('proto.screens.' + key);
               const isActive = current === key;
               return (
                 <button key={key} onClick={() => onChoose(key)}
@@ -223,23 +172,24 @@ function Sidebar({ current, onChoose }) {
         </div>
       ))}
       <div style={{ font: 'var(--type-caption)', color: 'var(--fg-3)', padding: '8px 12px', lineHeight: 1.5 }}>
-        Bấm vào bất kỳ màn hình nào để xem. Bên trong điện thoại, các nút và bottom nav đều hoạt động bình thường.
+        {t('proto.sidebarHint')}
       </div>
     </aside>
   );
 }
 
 function Footer() {
+  const { t } = useI18n();
   return (
     <div style={{
       maxWidth: 720, textAlign: 'center',
       font: '400 12px/1.5 var(--font-body)', color: 'var(--fg-3)',
       padding: '4px 16px',
     }}>
-      Bấm vào màn hình ở khung điện thoại để tương tác — toàn bộ thanh điều hướng và CTA đều có thể nhấp.
+      {t('proto.footerHint')}
     </div>
   );
 }
 
 const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App />);
+root.render(<LanguageProvider><App /></LanguageProvider>);

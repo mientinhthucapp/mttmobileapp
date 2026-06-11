@@ -1,4 +1,4 @@
-/* global React, Icon, PrimaryButton, SecondaryButton, TextButton,
+/* global React, useI18n, Icon, PrimaryButton, SecondaryButton, TextButton,
    TextField, TextArea, Toggle, Chip, FilterPills, SegmentedTabs,
    TopBar, IconButton, BottomNav, SectionHeader,
    ListRow, Card, EmptyState, ImageTile, Screen, ScrollArea,
@@ -8,29 +8,30 @@ const { useState: useStateMore } = React;
 
 // ═══ 25. More menu ══════════════════════════════════════════════════
 function MoreScreen({ onCheckin, onContact, onCourses, onSaved, onPlaylists, onMyEvents, onSettings, onPrivacy, onSupport, onAbout, onProfile, onNotifications, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Thêm" right={<><IconButton icon="notifications" badge={2} onClick={onNotifications} /><IconButton icon="account_circle" onClick={onProfile} /></>} />
+      <TopBar title={t('more.title')} right={<><IconButton icon="notifications" badge={2} onClick={onNotifications} /><IconButton icon="account_circle" onClick={onProfile} /></>} />
       <ScrollArea padding="4px 16px 24px">
         <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 18px' }}>
-          Các chức năng khác của ứng dụng.
+          {t('more.intro')}
         </p>
 
-        <SectionHeader title="Tính năng khác" />
+        <SectionHeader title={t('more.otherFeatures')} />
         <SettingsCard>
-          <SettingsItem icon="qr_code_scanner" iconBg="#C1E8FF" iconColor="#006384" title="Check-in sự kiện" subtitle="Quét QR khi đến nơi" onClick={onCheckin} />
+          <SettingsItem icon="qr_code_scanner" iconBg="#C1E8FF" iconColor="#006384" title={t('more.checkin')} subtitle={t('more.checkinSub')} onClick={onCheckin} />
           <Divider />
-          <SettingsItem icon="chat_bubble" iconBg="#FFDCC7" iconColor="#B85B00" title="Liên hệ" subtitle="Email, Zalo, Viber, Facebook" onClick={onContact} />          
+          <SettingsItem icon="chat_bubble" iconBg="#FFDCC7" iconColor="#B85B00" title={t('more.contact')} subtitle={t('more.contactSub')} onClick={onContact} />
         </SettingsCard>
 
 
         <div style={{ height: 26 }} />
-        <SectionHeader title="Tính năng sắp ra mắt" />
+        <SectionHeader title={t('more.upcoming')} />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-          <ComingSoonTile icon="self_improvement" label="Thiền tập hằng ngày" tint="mint" />
-          <ComingSoonTile icon="edit_note" label="Nhật ký thực tập" tint="sand" />
-          <ComingSoonTile icon="groups" label="Mindfulness Bell" tint="sky" />
-          <ComingSoonTile icon="school" label="Vấn đáp về tâm lý" tint="plum" />
+          <ComingSoonTile icon="self_improvement" label={t('more.tileMeditation')} tint="mint" />
+          <ComingSoonTile icon="edit_note" label={t('more.tileJournal')} tint="sand" />
+          <ComingSoonTile icon="groups" label={t('more.tileBell')} tint="sky" />
+          <ComingSoonTile icon="school" label={t('more.tileQA')} tint="plum" />
         </div>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -39,6 +40,7 @@ function MoreScreen({ onCheckin, onContact, onCourses, onSaved, onPlaylists, onM
 }
 
 function ComingSoonTile({ icon, label, tint }) {
+  const { t } = useI18n();
   return (
     <div style={{
       background: '#fff', padding: 14, borderRadius: 18, boxShadow: 'var(--shadow-soft)',
@@ -52,49 +54,50 @@ function ComingSoonTile({ icon, label, tint }) {
         padding: '3px 8px', borderRadius: 9999,
         background: '#FFDCC7', color: '#723600',
         font: '700 9px var(--font-body)', letterSpacing: '0.1em', textTransform: 'uppercase',
-      }}>Sắp ra mắt</div>
+      }}>{t('common.comingSoon')}</div>
     </div>
   );
 }
 
 // ═══ 26. Contact ════════════════════════════════════════════════════
 function ContactScreen({ onBack, onSubmit, onNavigate }) {
+  const { t } = useI18n();
   const [vals, setVals] = useStateMore({ name: '', email: '', body: '' });
   const [sent, setSent] = useStateMore(false);
   const set = k => v => setVals({ ...vals, [k]: v });
   const submit = () => setSent(true);
   return (
     <Screen>
-      <TopBar title="Liên lạc" onBack={onBack} />
+      <TopBar title={t('contact.title')} onBack={onBack} />
       <ScrollArea padding="8px 16px 24px">
         <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 18px' }}>
-          Bạn có thể liên lạc với chúng tôi qua các kênh bên dưới.
+          {t('contact.intro')}
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-          <ContactTile icon="mail" label="Gửi email" sub="hello@mientinhthuc.vn" color="#006384" tint="#EEF4FF" />
-          <ContactTile icon="call" label="Gọi điện thoại" sub="0901 234 567" color="#2E7D32" tint="#D7F0D7" />
-          <ContactTile icon="forum" label="Nhắn tin Zalo" sub="@mientinhthuc" color="#0084FF" tint="#D8ECFF" />
-          <ContactTile icon="chat" label="Nhóm Viber" sub="Tham gia ngay" color="#7360F2" tint="#EAE2FF" />
-          <ContactTile icon="language" label="Website" sub="mientinhthuc.vn" color="#B85B00" tint="#FFDCC7" />
-          <ContactTile icon="facebook" label="Facebook" sub="/mientinhthuc" color="#1877F2" tint="#D8ECFF" />
+          <ContactTile icon="mail" label={t('contact.email')} sub="hello@mientinhthuc.vn" color="#006384" tint="#EEF4FF" />
+          <ContactTile icon="call" label={t('contact.call')} sub="0901 234 567" color="#2E7D32" tint="#D7F0D7" />
+          <ContactTile icon="forum" label={t('contact.zalo')} sub="@mientinhthuc" color="#0084FF" tint="#D8ECFF" />
+          <ContactTile icon="chat" label={t('contact.viber')} sub={t('contact.viberSub')} color="#7360F2" tint="#EAE2FF" />
+          <ContactTile icon="language" label={t('contact.website')} sub="mientinhthuc.vn" color="#B85B00" tint="#FFDCC7" />
+          <ContactTile icon="facebook" label={t('contact.facebook')} sub="/mientinhthuc" color="#1877F2" tint="#D8ECFF" />
         </div>
-        <SectionHeader title="Gửi liên hệ" />
+        <SectionHeader title={t('contact.formTitle')} />
         {sent ? (
           <div style={{ background: '#fff', borderRadius: 20, padding: 22, boxShadow: 'var(--shadow-soft)', textAlign: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(46,125,50,0.10)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="check_circle" size={40} color="var(--success)" filled />
             </div>
-            <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 6px' }}>Đã gửi liên hệ</h3>
+            <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 6px' }}>{t('contact.sentTitle')}</h3>
             <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: 0 }}>
-              Cảm ơn bạn. Chúng tôi sẽ liên lạc lại trong thời gian sớm nhất.
+              {t('contact.sentMsg')}
             </p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <TextField label="Họ và tên" value={vals.name} onChange={set('name')} placeholder="Nguyễn An Nhiên" />
-            <TextField label="Email" value={vals.email} onChange={set('email')} type="email" placeholder="annhien@example.com" />
-            <TextArea label="Nội dung cần liên lạc" value={vals.body} onChange={set('body')} placeholder="Bạn muốn chia sẻ điều gì với chúng tôi?" rows={5} />
-            <PrimaryButton onClick={submit}>Gửi liên hệ</PrimaryButton>
+            <TextField label={t('contact.name')} value={vals.name} onChange={set('name')} placeholder="Nguyễn An Nhiên" />
+            <TextField label={t('contact.emailField')} value={vals.email} onChange={set('email')} type="email" placeholder="annhien@example.com" />
+            <TextArea label={t('contact.body')} value={vals.body} onChange={set('body')} placeholder={t('contact.bodyPlaceholder')} rows={5} />
+            <PrimaryButton onClick={submit}>{t('contact.submit')}</PrimaryButton>
           </div>
         )}
       </ScrollArea>
@@ -122,9 +125,10 @@ function ContactTile({ icon, label, sub, color, tint }) {
 
 // ═══ 27. Profile ════════════════════════════════════════════════════
 function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents, onSettings, onPrivacy, onSupport, onAbout, onLogout, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Hồ sơ" onBack={onBack} />
+      <TopBar title={t('profile.title')} onBack={onBack} />
       <ScrollArea padding="8px 16px 24px">
         <div style={{
           background: '#fff', borderRadius: 22, padding: 18, boxShadow: 'var(--shadow-card)',
@@ -144,33 +148,33 @@ function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents
           <button onClick={onViewProfile} style={{
             background: '#EEF4FF', border: 0, padding: '8px 14px', borderRadius: 12,
             color: 'var(--primary)', font: '700 13px var(--font-body)', cursor: 'pointer',
-          }}>Xem hồ sơ</button>
+          }}>{t('profile.viewProfile')}</button>
         </div>
 
         <SettingsCard>
-          <SettingsItem icon="person" iconBg="#EEF4FF" title="Hồ sơ cá nhân" onClick={onViewProfile} />
+          <SettingsItem icon="person" iconBg="#EEF4FF" title={t('profile.personal')} onClick={onViewProfile} />
           <Divider />
-          <SettingsItem icon="bookmark" iconBg="#FFE5D0" iconColor="#E57321" title="Nội dung đã lưu" onClick={onSaved} />
+          <SettingsItem icon="bookmark" iconBg="#FFE5D0" iconColor="#E57321" title={t('profile.savedContent')} onClick={onSaved} />
           <Divider />
-          <SettingsItem icon="queue_music" iconBg="#C1E8FF" iconColor="#006384" title="Playlists" onClick={onPlaylists} />
+          <SettingsItem icon="queue_music" iconBg="#C1E8FF" iconColor="#006384" title={t('profile.playlists')} onClick={onPlaylists} />
           <Divider />
-          <SettingsItem icon="event_available" iconBg="#D7F0D7" iconColor="#2E7D32" title="Mã QR / Sự kiện của tôi" onClick={onMyEvents} />
+          <SettingsItem icon="event_available" iconBg="#D7F0D7" iconColor="#2E7D32" title={t('profile.myQR')} onClick={onMyEvents} />
         </SettingsCard>
 
         <div style={{ height: 18 }} />
         <SettingsCard>
-          <SettingsItem icon="settings" title="Cài đặt" onClick={onSettings} />
+          <SettingsItem icon="settings" title={t('profile.settings')} onClick={onSettings} />
           <Divider />
-          <SettingsItem icon="privacy_tip" title="Quyền riêng tư" onClick={onPrivacy} />
+          <SettingsItem icon="privacy_tip" title={t('profile.privacy')} onClick={onPrivacy} />
           <Divider />
-          <SettingsItem icon="help_outline" title="Hỗ trợ" onClick={onSupport} />
+          <SettingsItem icon="help_outline" title={t('profile.support')} onClick={onSupport} />
           <Divider />
-          <SettingsItem icon="info" title="Giới thiệu ứng dụng" onClick={onAbout} />
+          <SettingsItem icon="info" title={t('profile.aboutApp')} onClick={onAbout} />
         </SettingsCard>
 
         <div style={{ height: 18 }} />
         <SettingsCard>
-          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title="Đăng xuất" danger onClick={onLogout} />
+          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title={t('profile.logout')} danger onClick={onLogout} />
         </SettingsCard>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -180,9 +184,10 @@ function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents
 
 // ═══ 28. View profile ══════════════════════════════════════════════
 function ViewProfileScreen({ onBack, onEdit, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Hồ sơ cá nhân" onBack={onBack} right={<IconButton icon="edit" onClick={onEdit} />} />
+      <TopBar title={t('profile.personal')} onBack={onBack} right={<IconButton icon="edit" onClick={onEdit} />} />
       <ScrollArea padding="16px 16px 24px">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '12px 0 22px' }}>
           <div style={{
@@ -193,21 +198,21 @@ function ViewProfileScreen({ onBack, onEdit, onNavigate }) {
             boxShadow: '0 10px 24px rgba(229,115,33,0.30)',
           }}>A</div>
           <h2 style={{ font: '700 22px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>An Nhiên</h2>
-          <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>Thành viên từ tháng 03/2025</div>
+          <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>{t('profile.memberSince')}</div>
         </div>
         <SettingsCard>
-          <ProfileField label="Họ và tên" value="Nguyễn An Nhiên" />
+          <ProfileField label={t('profile.fullName')} value="Nguyễn An Nhiên" />
           <Divider />
-          <ProfileField label="Email" value="annhien@example.com" />
+          <ProfileField label={t('profile.email')} value="annhien@example.com" />
           <Divider />
-          <ProfileField label="Số điện thoại" value="0400 123 456" />
+          <ProfileField label={t('profile.phone')} value="0400 123 456" />
           <Divider />
-          <ProfileField label="Ngày sinh" value="14/08/1990" />
+          <ProfileField label={t('profile.dob')} value="14/08/1990" />
           <Divider />
-          <ProfileField label="Thành phố" value="TP. Hồ Chí Minh" />
+          <ProfileField label={t('profile.city')} value={t('profile.cityValue')} />
         </SettingsCard>
         <div style={{ height: 18 }} />
-        <PrimaryButton icon="edit" onClick={onEdit}>Chỉnh sửa hồ sơ</PrimaryButton>
+        <PrimaryButton icon="edit" onClick={onEdit}>{t('profile.edit')}</PrimaryButton>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
     </Screen>
@@ -225,6 +230,7 @@ function ProfileField({ label, value }) {
 
 // ═══ 29. Edit profile ══════════════════════════════════════════════
 function EditProfileScreen({ onBack, onSave, onNavigate }) {
+  const { t } = useI18n();
   const [vals, setVals] = useStateMore({
     name: 'Nguyễn An Nhiên',
     phone: '0400 123 456',
@@ -234,7 +240,7 @@ function EditProfileScreen({ onBack, onSave, onNavigate }) {
   const set = k => v => setVals({ ...vals, [k]: v });
   return (
     <Screen>
-      <TopBar title="Chỉnh sửa hồ sơ" onBack={onBack} />
+      <TopBar title={t('profile.editTitle')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, marginBottom: 22 }}>
           <div style={{ position: 'relative' }}>
@@ -251,19 +257,19 @@ function EditProfileScreen({ onBack, onSave, onNavigate }) {
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}><Icon name="camera_alt" size={16} /></button>
           </div>
-          <TextButton>Thay ảnh đại diện</TextButton>
+          <TextButton>{t('profile.changePhoto')}</TextButton>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <TextField label="Họ và tên" value={vals.name} onChange={set('name')} />
-          <TextField label="Số điện thoại" value={vals.phone} onChange={set('phone')} type="tel" />
-          <TextField label="Thành phố" value={vals.city} onChange={set('city')} />
-          <TextArea label="Giới thiệu ngắn" value={vals.bio} onChange={set('bio')} placeholder="Vài dòng về bạn (không bắt buộc)" rows={3} />
+          <TextField label={t('profile.fullName')} value={vals.name} onChange={set('name')} />
+          <TextField label={t('profile.phone')} value={vals.phone} onChange={set('phone')} type="tel" />
+          <TextField label={t('profile.city')} value={vals.city} onChange={set('city')} />
+          <TextArea label={t('profile.bio')} value={vals.bio} onChange={set('bio')} placeholder={t('profile.bioPlaceholder')} rows={3} />
         </div>
 
         <div style={{ display: 'flex', gap: 12, marginTop: 22 }}>
-          <div style={{ flex: 1 }}><SecondaryButton onClick={onBack}>Hủy</SecondaryButton></div>
-          <div style={{ flex: 1 }}><PrimaryButton onClick={onSave}>Lưu thay đổi</PrimaryButton></div>
+          <div style={{ flex: 1 }}><SecondaryButton onClick={onBack}>{t('common.cancel')}</SecondaryButton></div>
+          <div style={{ flex: 1 }}><PrimaryButton onClick={onSave}>{t('common.saveChanges')}</PrimaryButton></div>
         </div>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -273,36 +279,82 @@ function EditProfileScreen({ onBack, onSave, onNavigate }) {
 
 // ═══ 30. Settings ═══════════════════════════════════════════════════
 function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
+  const { t, lang, setLang } = useI18n();
   const [dark, setDark] = useStateMore(false);
+  const [showLang, setShowLang] = useStateMore(false);
+  const langOptions = [
+    { code: 'vi', label: 'Tiếng Việt' },
+    { code: 'en', label: 'English' },
+  ];
+  const currentLangLabel = (langOptions.find(o => o.code === lang) || langOptions[0]).label;
   return (
     <Screen>
-      <TopBar title="Cài đặt" onBack={onBack} />
+      <TopBar title={t('settings.title')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
-        <SectionHeader title="Tài khoản" />
+        <SectionHeader title={t('settings.account')} />
         <SettingsCard>
-          <SettingsItem icon="account_circle" title="Tài khoản" subtitle="annhien@example.com" onClick={() => {}} />
+          <SettingsItem icon="account_circle" title={t('settings.accountRow')} subtitle="annhien@example.com" onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="lock" title="Đổi mật khẩu" onClick={() => {}} />
+          <SettingsItem icon="lock" title={t('settings.changePassword')} onClick={() => {}} />
         </SettingsCard>
 
         <div style={{ height: 22 }} />
-        <SectionHeader title="Tuỳ chọn ứng dụng" />
+        <SectionHeader title={t('settings.appPrefs')} />
         <SettingsCard>
-          <SettingsItem icon="language" title="Ngôn ngữ" right={<span style={{ font: '500 14px var(--font-body)', color: 'var(--fg-3)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>Tiếng Việt <Icon name="chevron_right" size={18} color="var(--fg-3)" /></span>} onClick={() => {}} />
+          <SettingsItem icon="language" title={t('settings.language')} right={<span style={{ font: '500 14px var(--font-body)', color: 'var(--fg-3)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>{currentLangLabel} <Icon name="chevron_right" size={18} color="var(--fg-3)" /></span>} onClick={() => setShowLang(true)} />
           <Divider />
-          <SettingsItem icon="dark_mode" title="Giao diện tối" right={<Toggle on={dark} onChange={setDark} />} />
+          <SettingsItem icon="dark_mode" title={t('settings.darkMode')} right={<Toggle on={dark} onChange={setDark} />} />
           <Divider />
-          <SettingsItem icon="notifications" title="Cài đặt thông báo" onClick={onNotifSettings} />
+          <SettingsItem icon="notifications" title={t('settings.notifSettings')} onClick={onNotifSettings} />
         </SettingsCard>
 
         <div style={{ height: 22 }} />
-        <SectionHeader title="Khác" />
+        <SectionHeader title={t('settings.other')} />
         <SettingsCard>
-          <SettingsItem icon="cleaning_services" title="Xoá bộ nhớ tạm" subtitle="124 MB" onClick={() => {}} />
+          <SettingsItem icon="cleaning_services" title={t('settings.clearCache')} subtitle="124 MB" onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title="Đăng xuất" danger onClick={onLogout} />
+          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title={t('settings.logout')} danger onClick={onLogout} />
         </SettingsCard>
       </ScrollArea>
+
+      {/* Language picker — bottom sheet */}
+      {showLang && (
+        <div onClick={() => setShowLang(false)} style={{
+          position: 'absolute', inset: 0, zIndex: 30,
+          background: 'rgba(7,29,48,0.35)',
+          display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: '#fff', borderRadius: '24px 24px 0 0',
+            padding: '14px 16px 40px',
+            boxShadow: '0 -10px 30px rgba(7,29,48,0.12)',
+          }}>
+            <div style={{ width: 40, height: 4, borderRadius: 9999, background: 'rgba(190,200,207,0.7)', margin: '0 auto 14px' }} />
+            <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 4px' }}>{t('settings.language')}</h3>
+            <p style={{ font: '400 13px/1.5 var(--font-body)', color: 'var(--fg-3)', margin: '0 0 14px' }}>{t('settings.languageSheetDesc')}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {langOptions.map(o => {
+                const active = lang === o.code;
+                return (
+                  <button key={o.code} onClick={() => { setLang(o.code); setShowLang(false); }} style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '14px 16px', borderRadius: 14, cursor: 'pointer',
+                    background: active ? '#EEF4FF' : '#fff',
+                    border: '1.5px solid ' + (active ? 'var(--primary)' : 'var(--outline-soft)'),
+                    font: '600 15px var(--font-body)',
+                    color: active ? 'var(--primary)' : 'var(--fg-1)',
+                    textAlign: 'left',
+                  }}>
+                    <span style={{ flex: 1 }}>{o.label}</span>
+                    {active && <Icon name="check_circle" size={20} color="var(--primary)" filled />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       <BottomNav active="more" onNavigate={onNavigate} />
     </Screen>
   );
@@ -310,28 +362,29 @@ function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
 
 // ═══ 31. Privacy ════════════════════════════════════════════════════
 function PrivacyScreen({ onBack, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Quyền riêng tư" onBack={onBack} />
+      <TopBar title={t('privacy.title')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
         <p style={{ font: '400 14px/1.6 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 18px' }}>
-          Miền Tỉnh Thức cam kết bảo vệ thông tin cá nhân của bạn và chỉ sử dụng dữ liệu để mang đến trải nghiệm an lành hơn.
+          {t('privacy.intro')}
         </p>
         <SettingsCard>
-          <SettingsItem icon="badge" iconBg="#EEF4FF" title="Dữ liệu cá nhân" subtitle="Quản lý thông tin bạn đã chia sẻ" onClick={() => {}} />
+          <SettingsItem icon="badge" iconBg="#EEF4FF" title={t('privacy.personalData')} subtitle={t('privacy.personalDataSub')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="event_note" iconBg="#FFDCC7" iconColor="#B85B00" title="Dữ liệu sự kiện" subtitle="Lịch tham dự, mã QR, ghi chú" onClick={() => {}} />
+          <SettingsItem icon="event_note" iconBg="#FFDCC7" iconColor="#B85B00" title={t('privacy.eventData')} subtitle={t('privacy.eventDataSub')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="lock" title="Quyền truy cập nội dung" subtitle="Microphone, thông báo, lịch" onClick={() => {}} />
+          <SettingsItem icon="lock" title={t('privacy.access')} subtitle={t('privacy.accessSub')} onClick={() => {}} />
         </SettingsCard>
 
         <div style={{ height: 22 }} />
         <SettingsCard>
-          <SettingsItem icon="description" title="Điều khoản sử dụng" onClick={() => {}} />
+          <SettingsItem icon="description" title={t('privacy.terms')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="shield" title="Chính sách quyền riêng tư" onClick={() => {}} />
+          <SettingsItem icon="shield" title={t('privacy.policy')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="delete_forever" iconBg="#FFDAD6" iconColor="var(--error)" title="Xoá tài khoản" danger onClick={() => {}} />
+          <SettingsItem icon="delete_forever" iconBg="#FFDAD6" iconColor="var(--error)" title={t('privacy.deleteAccount')} danger onClick={() => {}} />
         </SettingsCard>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -341,25 +394,26 @@ function PrivacyScreen({ onBack, onNavigate }) {
 
 // ═══ 32. Support ════════════════════════════════════════════════════
 function SupportScreen({ onBack, onContact, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Hỗ trợ" onBack={onBack} />
+      <TopBar title={t('support.title')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
         <div style={{
           background: 'linear-gradient(135deg, #C1E8FF 0%, #EEF4FF 100%)',
           borderRadius: 20, padding: 20, marginBottom: 22,
         }}>
           <Icon name="support_agent" size={36} color="var(--primary)" filled />
-          <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '10px 0 6px' }}>Bạn cần hỗ trợ điều gì?</h3>
+          <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '10px 0 6px' }}>{t('support.heading')}</h3>
           <p style={{ font: '400 14px/1.5 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 14px' }}>
-            Chúng tôi sẵn sàng đồng hành cùng bạn.
+            {t('support.sub')}
           </p>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px',
             background: '#fff', borderRadius: 12,
           }}>
             <Icon name="search" size={20} color="var(--fg-3)" />
-            <input placeholder="Tìm câu hỏi, hướng dẫn…" style={{
+            <input placeholder={t('support.searchPlaceholder')} style={{
               flex: 1, border: 0, outline: 'none', background: 'transparent',
               font: '400 14px var(--font-body)', color: 'var(--fg-1)',
             }} />
@@ -367,17 +421,17 @@ function SupportScreen({ onBack, onContact, onNavigate }) {
         </div>
 
         <SettingsCard>
-          <SettingsItem icon="quiz" iconBg="#EEF4FF" title="Câu hỏi thường gặp" subtitle="Đăng ký, sự kiện, mã QR…" onClick={() => {}} />
+          <SettingsItem icon="quiz" iconBg="#EEF4FF" title={t('support.faq')} subtitle={t('support.faqSub')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="forum" iconBg="#FFDCC7" iconColor="#B85B00" title="Liên hệ ban tổ chức" subtitle="Email, Zalo, Viber" onClick={onContact} />
+          <SettingsItem icon="forum" iconBg="#FFDCC7" iconColor="#B85B00" title={t('support.contactOrganizers')} subtitle={t('support.contactOrganizersSub')} onClick={onContact} />
           <Divider />
-          <SettingsItem icon="rate_review" iconBg="#D7F0D7" iconColor="#2E7D32" title="Gửi góp ý" subtitle="Giúp chúng tôi cải thiện ứng dụng" onClick={() => {}} />
+          <SettingsItem icon="rate_review" iconBg="#D7F0D7" iconColor="#2E7D32" title={t('support.feedback')} subtitle={t('support.feedbackSub')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="bug_report" iconBg="#FFDAD6" iconColor="var(--error)" title="Báo lỗi ứng dụng" onClick={() => {}} />
+          <SettingsItem icon="bug_report" iconBg="#FFDAD6" iconColor="var(--error)" title={t('support.reportBug')} onClick={() => {}} />
         </SettingsCard>
 
         <div style={{ height: 22 }} />
-        <SectionHeader title="Liên hệ trực tiếp" />
+        <SectionHeader title={t('support.directContact')} />
         <div style={{ background: '#fff', borderRadius: 18, padding: 18, boxShadow: 'var(--shadow-soft)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
             <Icon name="mail" size={18} color="var(--primary)" />
@@ -396,9 +450,10 @@ function SupportScreen({ onBack, onContact, onNavigate }) {
 
 // ═══ 33. About app ══════════════════════════════════════════════════
 function AboutScreen({ onBack, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Giới thiệu ứng dụng" onBack={onBack} />
+      <TopBar title={t('about.title')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px 0 24px', gap: 14 }}>
           <div style={{
@@ -410,24 +465,24 @@ function AboutScreen({ onBack, onNavigate }) {
           </div>
           <h1 style={{ font: '700 28px var(--font-display)', color: 'var(--primary)', margin: 0, letterSpacing: '-0.01em' }}>Miền Tỉnh Thức</h1>
           <p style={{ font: '600 13px var(--font-body)', color: 'var(--fg-2)', letterSpacing: '0.04em', margin: 0 }}>
-            Lan tỏa những giá trị Thật – Lành – Đẹp
+            {t('about.tagline')}
           </p>
           <p style={{ font: '400 15px/1.65 var(--font-body)', color: 'var(--fg-2)', margin: '8px 0 0', maxWidth: 320 }}>
-            Ứng dụng hỗ trợ cộng đồng cùng thực tập tỉnh thức, tham gia sự kiện, lắng nghe pháp thoại và nuôi dưỡng đời sống bình an.
+            {t('about.desc')}
           </p>
-          <Chip variant="soft">Phiên bản beta v0.1</Chip>
+          <Chip variant="soft">{t('about.version')}</Chip>
         </div>
 
         <SettingsCard>
-          <SettingsItem icon="description" title="Điều khoản sử dụng" onClick={() => {}} />
+          <SettingsItem icon="description" title={t('about.terms')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="shield" title="Chính sách quyền riêng tư" onClick={() => {}} />
+          <SettingsItem icon="shield" title={t('about.policy')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="favorite" iconColor="var(--accent-warm)" iconBg="#FFDCC7" title="Cảm ơn cộng đồng" subtitle="Gửi đến những bạn đã đồng hành" onClick={() => {}} />
+          <SettingsItem icon="favorite" iconColor="var(--accent-warm)" iconBg="#FFDCC7" title={t('about.thanks')} subtitle={t('about.thanksSub')} onClick={() => {}} />
         </SettingsCard>
 
         <p style={{ font: 'var(--type-caption)', color: 'var(--fg-3)', textAlign: 'center', margin: '22px 0 0' }}>
-          © 2026 Miền Tỉnh Thức · Made with care
+          {t('about.copyright')}
         </p>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -437,12 +492,13 @@ function AboutScreen({ onBack, onNavigate }) {
 
 // ═══ 34. Check-in (QR scanner) ═════════════════════════════════════
 function CheckinScreen({ onBack, onNavigate }) {
+  const { t } = useI18n();
   return (
     <Screen>
-      <TopBar title="Check-in sự kiện" onBack={onBack} />
+      <TopBar title={t('checkin.title')} onBack={onBack} />
       <ScrollArea padding="16px 16px 24px">
         <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 18px', textAlign: 'center' }}>
-          Đưa mã QR sự kiện của bạn vào khung dưới đây để check-in.
+          {t('checkin.instruction')}
         </p>
         <div style={{
           aspectRatio: '1 / 1', borderRadius: 28, position: 'relative', overflow: 'hidden',
@@ -473,11 +529,11 @@ function CheckinScreen({ onBack, onNavigate }) {
           }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-          <Chip variant="warm" icon="info">Đang chờ mã QR…</Chip>
+          <Chip variant="warm" icon="info">{t('checkin.waiting')}</Chip>
         </div>
         <div style={{ marginTop: 26, display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <SecondaryButton icon={<Icon name="qr_code_2" size={20} color="var(--primary)" />}>Hiện mã QR của tôi</SecondaryButton>
-          <SecondaryButton icon={<Icon name="edit_note" size={20} color="var(--primary)" />}>Nhập mã thủ công</SecondaryButton>
+          <SecondaryButton icon={<Icon name="qr_code_2" size={20} color="var(--primary)" />}>{t('checkin.showMyQR')}</SecondaryButton>
+          <SecondaryButton icon={<Icon name="edit_note" size={20} color="var(--primary)" />}>{t('checkin.manualEntry')}</SecondaryButton>
         </div>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />

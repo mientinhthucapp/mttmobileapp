@@ -1,4 +1,4 @@
-/* global React, Icon, PrimaryButton, SecondaryButton, TextButton,
+/* global React, useI18n, Icon, PrimaryButton, SecondaryButton, TextButton,
    TextField, Checkbox, Chip, FilterPills, SegmentedTabs,
    TopBar, AppTopBar, IconButton, BottomNav, OrDivider, SectionHeader,
    ListRow, Card, EmptyState, ImageTile, Dot, Screen, ScrollArea */
@@ -6,6 +6,8 @@
 const { useState: useStateTalks } = React;
 
 // ─── Sample data ───────────────────────────────────────────────────
+// Category names are programme/series names and stay the same in both languages.
+// Talk titles & speakers resolve through the i18n dictionary (data.talks.* / data.speakers.*).
 const TALK_CATEGORIES = [
   { id: 'truong-thanh', label: 'Trưởng Thành', tint: 'sky',    icon: 'psychology',     count: 24 },
   { id: 'boi-tam',      label: 'Bói Tâm',      tint: 'plum',   icon: 'auto_awesome',   count: 18 },
@@ -16,33 +18,34 @@ const TALK_CATEGORIES = [
 ];
 
 const AUDIO_TRACKS = [
-  { id: 'a1', tint: 'ocean',  title: 'Trở về với hơi thở',     speaker: 'Thầy Minh Niệm', duration: '22:14' },
-  { id: 'a2', tint: 'forest', title: 'Tĩnh lặng giữa đời',     speaker: 'Thầy Minh Niệm', duration: '18:30' },
-  { id: 'a3', tint: 'plum',   title: 'Lắng nghe trái tim',     speaker: 'Thầy Minh Niệm', duration: '15:42' },
-  { id: 'a4', tint: 'sand',   title: 'Buông bỏ nhẹ nhàng',     speaker: 'Thầy Minh Niệm', duration: '25:08' },
+  { id: 'a1', tint: 'ocean',  titleKey: 'troVe',       speakerKey: 'minhNiem', duration: '22:14' },
+  { id: 'a2', tint: 'forest', titleKey: 'tinhLang',    speakerKey: 'minhNiem', duration: '18:30' },
+  { id: 'a3', tint: 'plum',   titleKey: 'langNgheTim', speakerKey: 'minhNiem', duration: '15:42' },
+  { id: 'a4', tint: 'sand',   titleKey: 'buongBo',     speakerKey: 'minhNiem', duration: '25:08' },
 ];
 
 // ═══ 16. Talks library ═════════════════════════════════════════════
 function TalksLibraryScreen({ onOpenCategory, onOpenContent, onSaved, onPlaylists, onProfile, onNotifications, onNavigate }) {
+  const { t } = useI18n();
   const [filter, setFilter] = useStateTalks('all');
   const filters = [
-    { key: 'all', label: 'Tất cả' },
-    { key: 'new', label: 'Mới nhất' },
-    { key: 'video', label: 'Video' },
-    { key: 'audio', label: 'Âm thanh' },
-    { key: 'saved', label: 'Đã lưu' },
-    { key: 'listening', label: 'Đang nghe' },
+    { key: 'all', label: t('talks.filters.all') },
+    { key: 'new', label: t('talks.filters.new') },
+    { key: 'video', label: t('talks.filters.video') },
+    { key: 'audio', label: t('talks.filters.audio') },
+    { key: 'saved', label: t('talks.filters.saved') },
+    { key: 'listening', label: t('talks.filters.listening') },
   ];
   return (
     <Screen>
-      <AppTopBar title="Thư viện Talks" name="A" onProfile={onProfile} onNotifications={onNotifications} notifBadge={2} />
+      <AppTopBar title={t('talks.title')} name="A" onProfile={onProfile} onNotifications={onNotifications} notifBadge={2} />
       <div style={{ padding: '4px 16px 8px' }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px',
           background: '#fff', borderRadius: 14, boxShadow: 'var(--shadow-soft)', marginBottom: 12,
         }}>
           <Icon name="search" size={20} color="var(--fg-3)" />
-          <input placeholder="Tìm bài talks" style={{
+          <input placeholder={t('talks.search')} style={{
             flex: 1, border: 0, outline: 'none', background: 'transparent',
             font: '400 15px var(--font-body)', color: 'var(--fg-1)',
           }} />
@@ -53,12 +56,12 @@ function TalksLibraryScreen({ onOpenCategory, onOpenContent, onSaved, onPlaylist
       <ScrollArea padding="16px 16px 12px">
         {/* Quick links */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 22 }}>
-          <QuickLink icon="bookmark" iconColor="var(--accent-warm)" bg="linear-gradient(135deg, #FFE5D0, #FFC890)" label="Đã lưu" sub="12 nội dung" onClick={onSaved} />
-          <QuickLink icon="queue_music" iconColor="var(--primary)" bg="linear-gradient(135deg, #C1E8FF, #74D1FF)" label="Playlists" sub="3 danh sách" onClick={onPlaylists} />
+          <QuickLink icon="bookmark" iconColor="var(--accent-warm)" bg="linear-gradient(135deg, #FFE5D0, #FFC890)" label={t('talks.savedLabel')} sub={t('talks.savedSub')} onClick={onSaved} />
+          <QuickLink icon="queue_music" iconColor="var(--primary)" bg="linear-gradient(135deg, #C1E8FF, #74D1FF)" label={t('talks.playlistsLabel')} sub={t('talks.playlistsSub')} onClick={onPlaylists} />
         </div>
 
         {/* Categories grid */}
-        <SectionHeader title="Chủ đề" />
+        <SectionHeader title={t('talks.topics')} />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           {TALK_CATEGORIES.map(c => (
             <button key={c.id} onClick={() => onOpenCategory && onOpenCategory(c)}
@@ -70,16 +73,22 @@ function TalksLibraryScreen({ onOpenCategory, onOpenContent, onSaved, onPlaylist
               <ImageTile tint={c.tint} icon={c.icon} size={56} radius={14} />
               <div style={{ flex: 1 }} />
               <div style={{ font: '700 14px/1.25 var(--font-display)', color: 'var(--fg-1)' }}>{c.label}</div>
-              <div style={{ font: '500 12px var(--font-body)', color: 'var(--fg-3)' }}>{c.count} nội dung</div>
+              <div style={{ font: '500 12px var(--font-body)', color: 'var(--fg-3)' }}>{t('common.items', { n: c.count })}</div>
             </button>
           ))}
         </div>
 
         {/* Audio section */}
         <div style={{ marginTop: 28 }}>
-          <SectionHeader title="Audio mới nhất" action="Xem tất cả" onAction={() => onOpenCategory && onOpenCategory({ id: 'audio', label: 'Audio' })} />
+          <SectionHeader title={t('talks.latestAudio')} action={t('common.viewAll')} onAction={() => onOpenCategory && onOpenCategory({ id: 'audio', label: t('talks.audioCategory') })} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {AUDIO_TRACKS.map(a => <AudioRow key={a.id} {...a} onClick={() => onOpenContent && onOpenContent(a)} />)}
+            {AUDIO_TRACKS.map(a => (
+              <AudioRow key={a.id} tint={a.tint}
+                title={t('data.talks.' + a.titleKey)}
+                speaker={t('data.speakers.' + a.speakerKey)}
+                duration={a.duration}
+                onClick={() => onOpenContent && onOpenContent({ ...a, kind: 'audio' })} />
+            ))}
           </div>
         </div>
         <div style={{ height: 16 }} />
@@ -134,19 +143,25 @@ function AudioRow({ tint, title, speaker, duration, onClick, saved }) {
 
 // ═══ 17. Content list (after picking category) ═════════════════════
 const CONTENT_LIST = [
-  { id: 'c1', tint: 'forest',  icon: 'spa',          type: 'Video',    title: 'Đối Cảnh Vô Tâm', speaker: 'Thầy Minh Niệm', duration: '42 phút' },
-  { id: 'c2', tint: 'ocean',   icon: 'headphones',   type: 'Âm thanh', title: 'Trở về với hơi thở', speaker: 'Thầy Minh Niệm', duration: '22 phút' },
-  { id: 'c3', tint: 'sunset',  icon: 'auto_awesome', type: 'Video',    title: 'Bói Tâm, tập 17: Khủng hoảng làm hiện sinh', speaker: 'Thầy Minh Niệm', duration: '38 phút' },
-  { id: 'c4', tint: 'dusk',    icon: 'nightlight',   type: 'Âm thanh', title: 'Nghe trước khi ngủ', speaker: 'Thầy Minh Niệm', duration: '28 phút' },
-  { id: 'c5', tint: 'plum',    icon: 'favorite',     type: 'Video',    title: 'Lắng nghe trái tim mình', speaker: 'Thầy Minh Niệm', duration: '35 phút' },
+  { id: 'c1', tint: 'forest',  icon: 'spa',          kind: 'video', titleKey: 'doiCanh',         speakerKey: 'minhNiem', durMin: 42 },
+  { id: 'c2', tint: 'ocean',   icon: 'headphones',   kind: 'audio', titleKey: 'troVe',           speakerKey: 'minhNiem', durMin: 22 },
+  { id: 'c3', tint: 'sunset',  icon: 'auto_awesome', kind: 'video', titleKey: 'boiTam17Full',    speakerKey: 'minhNiem', durMin: 38 },
+  { id: 'c4', tint: 'dusk',    icon: 'nightlight',   kind: 'audio', titleKey: 'ngheTruocNgu',    speakerKey: 'minhNiem', durMin: 28 },
+  { id: 'c5', tint: 'plum',    icon: 'favorite',     kind: 'video', titleKey: 'langNgheTimMinh', speakerKey: 'minhNiem', durMin: 35 },
 ];
 
 function ContentListScreen({ category, onOpenContent, onBack, onNavigate }) {
+  const { t } = useI18n();
   const [sort, setSort] = useStateTalks('newest');
-  const sorts = [{ key: 'newest', label: 'Mới nhất' }, { key: 'popular', label: 'Phổ biến' }, { key: 'short', label: 'Ngắn' }, { key: 'long', label: 'Dài' }];
+  const sorts = [
+    { key: 'newest', label: t('talks.sorts.newest') },
+    { key: 'popular', label: t('talks.sorts.popular') },
+    { key: 'short', label: t('talks.sorts.short') },
+    { key: 'long', label: t('talks.sorts.long') },
+  ];
   return (
     <Screen>
-      <TopBar title={(category && category.label) || 'Nội dung'} onBack={onBack} right={<IconButton icon="search" />} />
+      <TopBar title={(category && category.label) || t('talks.contentFallback')} onBack={onBack} right={<IconButton icon="search" />} />
       <div style={{ padding: '4px 16px 12px' }}>
         <FilterPills items={sorts} active={sort} onChange={setSort} />
       </div>
@@ -171,9 +186,9 @@ function ContentListScreen({ category, onOpenContent, onBack, onNavigate }) {
                 </div>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <Chip variant="soft" size="sm">{c.type}</Chip>
-                <h4 style={{ font: '700 15px/1.3 var(--font-display)', color: 'var(--fg-1)', margin: '8px 0 6px' }}>{c.title}</h4>
-                <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)' }}>{c.speaker} · {c.duration}</div>
+                <Chip variant="soft" size="sm">{c.kind === 'audio' ? t('common.audio') : t('common.video')}</Chip>
+                <h4 style={{ font: '700 15px/1.3 var(--font-display)', color: 'var(--fg-1)', margin: '8px 0 6px' }}>{t('data.talks.' + c.titleKey)}</h4>
+                <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)' }}>{t('data.speakers.' + c.speakerKey)} · {t('common.minutes', { n: c.durMin })}</div>
               </div>
             </button>
           ))}
@@ -186,10 +201,15 @@ function ContentListScreen({ category, onOpenContent, onBack, onNavigate }) {
 
 // ═══ 18. Content details ════════════════════════════════════════════
 function ContentDetailsScreen({ content, onBack, onNavigate, onAddToPlaylist }) {
+  const { t } = useI18n();
   const [saved, setSaved] = useStateTalks(false);
   const [playing, setPlaying] = useStateTalks(false);
-  const c = content || { tint: 'forest', icon: 'spa', type: 'Video', title: 'Đối Cảnh Vô Tâm', speaker: 'Thầy Minh Niệm', duration: '42 phút' };
-  const isAudio = c.type === 'Âm thanh';
+  const c = content || { tint: 'forest', icon: 'spa', kind: 'video', titleKey: 'doiCanh', speakerKey: 'minhNiem', durMin: 42 };
+  const isAudio = c.kind === 'audio';
+  const title = c.titleKey ? t('data.talks.' + c.titleKey) : c.title;
+  const speaker = c.speakerKey ? t('data.speakers.' + c.speakerKey) : c.speaker;
+  const duration = c.durMin ? t('common.minutes', { n: c.durMin }) : c.duration;
+  const typeLabel = isAudio ? t('common.audio') : t('common.video');
   const tints = {
     forest: 'linear-gradient(135deg, #7FCB94, #2E8A53)',
     ocean: 'linear-gradient(135deg, #6FD5E7, #0098B6)',
@@ -200,7 +220,7 @@ function ContentDetailsScreen({ content, onBack, onNavigate, onAddToPlaylist }) 
   };
   return (
     <Screen>
-      <TopBar onBack={onBack} title="Chi tiết nội dung" right={<><IconButton icon="share" /><IconButton icon={saved ? 'bookmark' : 'bookmark_border'} onClick={() => setSaved(!saved)} color={saved ? 'var(--accent-warm)' : undefined} filled={saved} /></>} />
+      <TopBar onBack={onBack} title={t('talks.details.title')} right={<><IconButton icon="share" /><IconButton icon={saved ? 'bookmark' : 'bookmark_border'} onClick={() => setSaved(!saved)} color={saved ? 'var(--accent-warm)' : undefined} filled={saved} /></>} />
       <ScrollArea padding="0 0 24px">
         {/* Player area */}
         {!isAudio ? (
@@ -224,45 +244,45 @@ function ContentDetailsScreen({ content, onBack, onNavigate, onAddToPlaylist }) 
               <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.28)', borderRadius: 2 }}>
                 <div style={{ width: '12%', height: '100%', background: '#fff', borderRadius: 2 }} />
               </div>
-              <span style={{ font: '600 12px var(--font-body)' }}>{c.duration}</span>
+              <span style={{ font: '600 12px var(--font-body)' }}>{duration}</span>
             </div>
           </div>
         ) : (
           <div style={{ margin: '8px 16px 18px' }}>
-            <AudioPlayer tint={c.tint} title={c.title} duration={c.duration} playing={playing} onTogglePlay={() => setPlaying(!playing)} />
+            <AudioPlayer tint={c.tint} title={title} duration={duration} playing={playing} onTogglePlay={() => setPlaying(!playing)} />
           </div>
         )}
 
         <div style={{ padding: '0 16px' }}>
-          <Chip variant="soft" size="sm">{c.type}</Chip>
-          <h1 style={{ font: '700 24px/1.25 var(--font-display)', color: 'var(--fg-1)', margin: '12px 0 6px', letterSpacing: '-0.01em' }}>{c.title}</h1>
+          <Chip variant="soft" size="sm">{typeLabel}</Chip>
+          <h1 style={{ font: '700 24px/1.25 var(--font-display)', color: 'var(--fg-1)', margin: '12px 0 6px', letterSpacing: '-0.01em' }}>{title}</h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg-3)', font: '500 13px var(--font-body)', marginBottom: 18 }}>
-            <Icon name="person" size={16} color="var(--primary)" />{c.speaker}
+            <Icon name="person" size={16} color="var(--primary)" />{speaker}
             <span>•</span>
-            <Icon name="schedule" size={16} color="var(--primary)" />{c.duration}
+            <Icon name="schedule" size={16} color="var(--primary)" />{duration}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 22 }}>
-            <ActionPill icon={playing ? 'pause' : 'play_arrow'} label={playing ? 'Tạm dừng' : 'Phát'} onClick={() => setPlaying(!playing)} primary />
-            <ActionPill icon={saved ? 'bookmark' : 'bookmark_border'} label="Lưu" onClick={() => setSaved(!saved)} active={saved} />
-            <ActionPill icon="playlist_add" label="Playlist" onClick={onAddToPlaylist} />
-            <ActionPill icon="share" label="Chia sẻ" />
+            <ActionPill icon={playing ? 'pause' : 'play_arrow'} label={playing ? t('talks.details.pause') : t('talks.details.play')} onClick={() => setPlaying(!playing)} primary />
+            <ActionPill icon={saved ? 'bookmark' : 'bookmark_border'} label={t('talks.details.save')} onClick={() => setSaved(!saved)} active={saved} />
+            <ActionPill icon="playlist_add" label={t('talks.details.playlist')} onClick={onAddToPlaylist} />
+            <ActionPill icon="share" label={t('talks.details.share')} />
           </div>
 
-          <h3 style={{ font: '700 16px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 8px' }}>Giới thiệu</h3>
+          <h3 style={{ font: '700 16px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 8px' }}>{t('talks.details.about')}</h3>
           <p style={{ font: '400 14px/1.65 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 14px' }}>
-            Một bài pháp thoại nhẹ nhàng về cách giữ tâm bình thản giữa những thay đổi của hoàn cảnh. Hãy lắng nghe khi bạn có một khoảng lặng riêng cho mình.
+            {t('talks.details.aboutText')}
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
-            <Chip variant="plain">#thiền</Chip>
-            <Chip variant="plain">#chánh niệm</Chip>
-            <Chip variant="plain">#pháp thoại</Chip>
+            <Chip variant="plain">{t('talks.details.tag1')}</Chip>
+            <Chip variant="plain">{t('talks.details.tag2')}</Chip>
+            <Chip variant="plain">{t('talks.details.tag3')}</Chip>
           </div>
 
-          <SectionHeader title="Nội dung liên quan" />
+          <SectionHeader title={t('talks.details.related')} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <AudioRow tint="ocean" title="Trở về với hơi thở" speaker="Thầy Minh Niệm" duration="22:14" />
-            <AudioRow tint="plum" title="Lắng nghe trái tim" speaker="Thầy Minh Niệm" duration="15:42" />
+            <AudioRow tint="ocean" title={t('data.talks.troVe')} speaker={t('data.speakers.minhNiem')} duration="22:14" />
+            <AudioRow tint="plum" title={t('data.talks.langNgheTim')} speaker={t('data.speakers.minhNiem')} duration="15:42" />
           </div>
         </div>
       </ScrollArea>
@@ -333,19 +353,24 @@ function AudioPlayer({ tint = 'ocean', title, duration, playing, onTogglePlay })
 
 // ═══ 19. Saved / Bookmarks ═════════════════════════════════════════
 function SavedContentScreen({ onBack, onOpenContent, onNavigate }) {
+  const { t } = useI18n();
   const [tab, setTab] = useStateTalks('all');
-  const tabs = [{ key: 'all', label: 'Tất cả' }, { key: 'video', label: 'Video' }, { key: 'audio', label: 'Âm thanh' }];
-  const saved = [
-    { id: 's1', tint: 'forest', icon: 'spa', type: 'Video', title: 'Đối Cảnh Vô Tâm', speaker: 'Thầy Minh Niệm', duration: '42 phút' },
-    { id: 's2', tint: 'ocean',  icon: 'headphones', type: 'Âm thanh', title: 'Trở về với hơi thở', speaker: 'Thầy Minh Niệm', duration: '22 phút' },
-    { id: 's3', tint: 'plum',   icon: 'favorite', type: 'Video', title: 'Lắng nghe trái tim mình', speaker: 'Thầy Minh Niệm', duration: '35 phút' },
+  const tabs = [
+    { key: 'all', label: t('talks.saved.tabAll') },
+    { key: 'video', label: t('talks.filters.video') },
+    { key: 'audio', label: t('talks.filters.audio') },
   ];
-  const list = tab === 'video' ? saved.filter(s => s.type === 'Video')
-            : tab === 'audio' ? saved.filter(s => s.type === 'Âm thanh')
+  const saved = [
+    { id: 's1', tint: 'forest', icon: 'spa',        kind: 'video', titleKey: 'doiCanh',         speakerKey: 'minhNiem', durMin: 42 },
+    { id: 's2', tint: 'ocean',  icon: 'headphones', kind: 'audio', titleKey: 'troVe',           speakerKey: 'minhNiem', durMin: 22 },
+    { id: 's3', tint: 'plum',   icon: 'favorite',   kind: 'video', titleKey: 'langNgheTimMinh', speakerKey: 'minhNiem', durMin: 35 },
+  ];
+  const list = tab === 'video' ? saved.filter(s => s.kind === 'video')
+            : tab === 'audio' ? saved.filter(s => s.kind === 'audio')
             : saved;
   return (
     <Screen>
-      <TopBar title="Nội dung đã lưu" onBack={onBack} />
+      <TopBar title={t('talks.saved.title')} onBack={onBack} />
       <div style={{ padding: '4px 16px 12px' }}>
         <SegmentedTabs items={tabs} active={tab} onChange={setTab} />
       </div>
@@ -361,16 +386,16 @@ function SavedContentScreen({ onBack, onOpenContent, onNavigate }) {
                 }}>
                 <ImageTile tint={c.tint} icon={c.icon} size={84} radius={14} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <Chip variant="soft" size="sm">{c.type}</Chip>
-                  <h4 style={{ font: '700 15px/1.3 var(--font-display)', color: 'var(--fg-1)', margin: '8px 0 6px' }}>{c.title}</h4>
-                  <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)' }}>{c.speaker} · {c.duration}</div>
+                  <Chip variant="soft" size="sm">{c.kind === 'audio' ? t('common.audio') : t('common.video')}</Chip>
+                  <h4 style={{ font: '700 15px/1.3 var(--font-display)', color: 'var(--fg-1)', margin: '8px 0 6px' }}>{t('data.talks.' + c.titleKey)}</h4>
+                  <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)' }}>{t('data.speakers.' + c.speakerKey)} · {t('common.minutes', { n: c.durMin })}</div>
                 </div>
                 <Icon name="bookmark" size={20} color="var(--accent-warm)" filled />
               </button>
             ))}
           </div>
         ) : (
-          <EmptyState icon="bookmark_border" title="Bạn chưa lưu nội dung nào." message="Bấm dấu trang trên một bài talks để lưu lại nghe sau." action="Khám phá pháp thoại" onAction={() => onNavigate && onNavigate('talks')} />
+          <EmptyState icon="bookmark_border" title={t('talks.saved.emptyTitle')} message={t('talks.saved.emptyMsg')} action={t('talks.saved.emptyAction')} onAction={() => onNavigate && onNavigate('talks')} />
         )}
       </ScrollArea>
       <BottomNav active="talks" onNavigate={onNavigate} />
@@ -380,14 +405,15 @@ function SavedContentScreen({ onBack, onOpenContent, onNavigate }) {
 
 // ═══ 20. Playlists list ════════════════════════════════════════════
 function PlaylistsScreen({ onBack, onOpenPlaylist, onNavigate }) {
+  const { t } = useI18n();
   const playlists = [
-    { id: 'p1', tint: 'sky',    icon: 'wb_sunny',    title: 'Thiền buổi sáng', count: 8 },
-    { id: 'p2', tint: 'dusk',   icon: 'nightlight',  title: 'Nghe trước khi ngủ', count: 6 },
-    { id: 'p3', tint: 'sunset', icon: 'favorite',    title: 'Pháp thoại yêu thích', count: 14 },
+    { id: 'p1', tint: 'sky',    icon: 'wb_sunny',   title: t('talks.playlists.morning'), count: 8 },
+    { id: 'p2', tint: 'dusk',   icon: 'nightlight', title: t('talks.playlists.beforeSleep'), count: 6 },
+    { id: 'p3', tint: 'sunset', icon: 'favorite',   title: t('talks.playlists.favorites'), count: 14 },
   ];
   return (
     <Screen>
-      <TopBar title="Playlists" onBack={onBack} right={<IconButton icon="add" />} />
+      <TopBar title={t('talks.playlists.title')} onBack={onBack} right={<IconButton icon="add" />} />
       <ScrollArea padding="8px 16px 12px">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {playlists.map(p => (
@@ -400,7 +426,7 @@ function PlaylistsScreen({ onBack, onOpenPlaylist, onNavigate }) {
               <ImageTile tint={p.tint} icon={p.icon} size={72} radius={14} />
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h4 style={{ font: '700 16px/1.3 var(--font-display)', color: 'var(--fg-1)', margin: '0 0 6px' }}>{p.title}</h4>
-                <div style={{ font: '400 13px var(--font-body)', color: 'var(--fg-3)' }}>{p.count} nội dung</div>
+                <div style={{ font: '400 13px var(--font-body)', color: 'var(--fg-3)' }}>{t('common.items', { n: p.count })}</div>
               </div>
               <Icon name="chevron_right" size={22} color="var(--fg-3)" />
             </button>
@@ -411,7 +437,7 @@ function PlaylistsScreen({ onBack, onOpenPlaylist, onNavigate }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             color: 'var(--primary)', font: '600 14px var(--font-body)',
           }}>
-            <Icon name="add" size={20} />Tạo danh sách mới
+            <Icon name="add" size={20} />{t('talks.playlists.createNew')}
           </button>
         </div>
       </ScrollArea>
@@ -422,12 +448,13 @@ function PlaylistsScreen({ onBack, onOpenPlaylist, onNavigate }) {
 
 // ═══ 21. Playlist details ══════════════════════════════════════════
 function PlaylistDetailsScreen({ playlist, onBack, onOpenContent, onNavigate }) {
-  const p = playlist || { tint: 'sky', icon: 'wb_sunny', title: 'Thiền buổi sáng', count: 8 };
+  const { t } = useI18n();
+  const p = playlist || { tint: 'sky', icon: 'wb_sunny', title: t('talks.playlists.morning'), count: 8 };
   const items = [
-    { id: 'pi1', tint: 'ocean',  type: 'Âm thanh', title: 'Mở mắt với hơi thở',     speaker: 'Thầy Minh Niệm', duration: '08:10' },
-    { id: 'pi2', tint: 'forest', type: 'Âm thanh', title: 'Bước chân thảnh thơi',   speaker: 'Thầy Minh Niệm', duration: '12:24' },
-    { id: 'pi3', tint: 'sunset', type: 'Âm thanh', title: 'Một ly trà tỉnh thức',   speaker: 'Thầy Minh Niệm', duration: '06:48' },
-    { id: 'pi4', tint: 'plum',   type: 'Âm thanh', title: 'Quay về với chính mình', speaker: 'Thầy Minh Niệm', duration: '15:02' },
+    { id: 'pi1', tint: 'ocean',  kind: 'audio', titleKey: 'moMat',    speakerKey: 'minhNiem', duration: '08:10' },
+    { id: 'pi2', tint: 'forest', kind: 'audio', titleKey: 'buocChan', speakerKey: 'minhNiem', duration: '12:24' },
+    { id: 'pi3', tint: 'sunset', kind: 'audio', titleKey: 'lyTra',    speakerKey: 'minhNiem', duration: '06:48' },
+    { id: 'pi4', tint: 'plum',   kind: 'audio', titleKey: 'quayVe',   speakerKey: 'minhNiem', duration: '15:02' },
   ];
   return (
     <Screen>
@@ -436,15 +463,15 @@ function PlaylistDetailsScreen({ playlist, onBack, onOpenContent, onNavigate }) 
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, padding: '8px 4px 20px' }}>
           <ImageTile tint={p.tint} icon={p.icon} size={108} radius={20} />
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ font: '700 11px var(--font-body)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 6 }}>PLAYLIST</div>
+            <div style={{ font: '700 11px var(--font-body)', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--fg-3)', marginBottom: 6 }}>{t('talks.playlists.label')}</div>
             <h1 style={{ font: '700 22px/1.2 var(--font-display)', color: 'var(--fg-1)', margin: '0 0 6px', letterSpacing: '-0.01em' }}>{p.title}</h1>
-            <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>{items.length} nội dung · 42 phút</div>
+            <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>{t('talks.playlists.meta', { n: items.length })}</div>
           </div>
         </div>
         <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 16px' }}>
-          Một chuỗi thực tập ngắn để bắt đầu ngày mới chánh niệm và nhẹ nhàng.
+          {t('talks.playlists.desc')}
         </p>
-        <PrimaryButton icon="play_arrow" onClick={() => onOpenContent && onOpenContent(items[0])}>Phát tất cả</PrimaryButton>
+        <PrimaryButton icon="play_arrow" onClick={() => onOpenContent && onOpenContent(items[0])}>{t('talks.playlists.playAll')}</PrimaryButton>
         <div style={{ height: 18 }} />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {items.map((it, i) => (
@@ -458,8 +485,8 @@ function PlaylistDetailsScreen({ playlist, onBack, onOpenContent, onNavigate }) 
               <div style={{ width: 28, font: '700 14px var(--font-display)', color: 'var(--fg-3)', textAlign: 'center' }}>{i + 1}</div>
               <ImageTile tint={it.tint} size={48} radius={10} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ font: '700 14px/1.3 var(--font-display)', color: 'var(--fg-1)' }}>{it.title}</div>
-                <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)', marginTop: 2 }}>{it.speaker} · {it.duration}</div>
+                <div style={{ font: '700 14px/1.3 var(--font-display)', color: 'var(--fg-1)' }}>{t('data.talks.' + it.titleKey)}</div>
+                <div style={{ font: '400 12px var(--font-body)', color: 'var(--fg-3)', marginTop: 2 }}>{t('data.speakers.' + it.speakerKey)} · {it.duration}</div>
               </div>
               <Icon name="play_circle" size={28} color="var(--primary)" filled />
             </button>

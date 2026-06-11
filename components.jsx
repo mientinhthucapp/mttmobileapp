@@ -1,4 +1,4 @@
-/* global React */
+/* global React, useI18n */
 // Shared MTT mobile components — MVP01.
 // Plus Jakarta Sans + Material Symbols + token colors.
 
@@ -321,11 +321,12 @@ function IconButton({ icon, onClick, badge, color, filled }) {
 
 // ─── Bottom nav — MVP01 four-tab (Trang chủ / Talks / Sự kiện / Thêm) ───
 function BottomNav({ active, onNavigate }) {
+  const { t } = useI18n();
   const items = [
-    { key: 'home',   icon: 'home',       label: 'Trang chủ' },
-    { key: 'talks',  icon: 'spa',        label: 'Talks' },
-    { key: 'events', icon: 'event_note', label: 'Sự kiện' },
-    { key: 'more',   icon: 'menu',       label: 'Thêm' },
+    { key: 'home',   icon: 'home',       label: t('nav.home') },
+    { key: 'talks',  icon: 'spa',        label: t('nav.talks') },
+    { key: 'events', icon: 'event_note', label: t('nav.events') },
+    { key: 'more',   icon: 'menu',       label: t('nav.more') },
   ];
   return (
     <div style={{
@@ -384,8 +385,9 @@ const AppleA = (
 );
 
 function SocialButton({ provider, onClick, label }) {
+  const { t } = useI18n();
   const icons = { google: GoogleG, facebook: FacebookF, apple: AppleA };
-  const labels = { google: 'Tiếp tục với Google', facebook: 'Tiếp tục với Facebook', apple: 'Tiếp tục với Apple' };
+  const labels = { google: t('auth.signup.withGoogle'), facebook: t('auth.signup.withFacebook'), apple: t('auth.signup.withApple') };
   return (
     <button onClick={onClick} style={{
       width: '100%', minHeight: 52, padding: '0 24px',
@@ -401,7 +403,9 @@ function SocialButton({ provider, onClick, label }) {
 }
 
 // ─── Divider with text ─────────────────────────────────────────────
-function OrDivider({ label = 'hoặc' }) {
+function OrDivider({ label }) {
+  const { t } = useI18n();
+  label = label || t('common.or');
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '4px 0' }}>
       <div style={{ flex: 1, height: 1, background: 'rgba(190,200,207,0.6)' }} />

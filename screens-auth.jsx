@@ -1,4 +1,4 @@
-/* global React, Logo, Icon, PrimaryButton, SecondaryButton, TextButton,
+/* global React, useI18n, Logo, Icon, PrimaryButton, SecondaryButton, TextButton,
    TextField, TextArea, Checkbox, Toggle, Chip, FilterPills, SegmentedTabs,
    TopBar, AppTopBar, IconButton, BottomNav, SocialButton, OrDivider,
    SectionHeader, ListRow, Card, EmptyState, ImageTile, Dot */
@@ -24,6 +24,7 @@ function ScrollArea({ children, padding = '0 16px' }) {
 
 // ═══ 01. Splash ═════════════════════════════════════════════════════
 function SplashScreen({ onContinue }) {
+  const { t } = useI18n();
   return (
     <Screen noBottomPad topSafe={false} bg="#FFF6E5">
       <div style={{ position: 'absolute', inset: 0,
@@ -47,21 +48,21 @@ function SplashScreen({ onContinue }) {
             font: 'italic 500 15px/1.7 var(--font-body)',
             color: 'var(--fg-2)', margin: 0, textAlign: 'center',
           }}>
-            Tay Phật trong tay con<br/>
-            Từng bước về tỉnh thức<br/>
-            Chưa bao giờ gần hơn<br/>
-            Cõi linh thiêng rất thật
+            {t('auth.splash.quote1')}<br/>
+            {t('auth.splash.quote2')}<br/>
+            {t('auth.splash.quote3')}<br/>
+            {t('auth.splash.quote4')}
           </p>
-          <div style={{ textAlign: 'center', marginTop: 10, font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--primary)' }}>— MINH NIỆM —</div>
+          <div style={{ textAlign: 'center', marginTop: 10, font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--primary)' }}>{t('auth.splash.author')}</div>
         </div>
       </div>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, paddingBottom: 56 }}>
         <Icon name="spa" size={48} style={{ color: 'rgba(184,91,0,0.18)' }} />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--primary)', animation: 'mtt-pulse 1.6s ease-in-out infinite' }} />
-          <span style={{ font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--fg-3)' }}>Loading…</span>
+          <span style={{ font: '600 11px var(--font-body)', letterSpacing: '0.22em', color: 'var(--fg-3)' }}>{t('common.loading')}</span>
         </div>
-        <button onClick={onContinue} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', background: 'transparent', border: 0 }} aria-label="Tap to continue" />
+        <button onClick={onContinue} style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', background: 'transparent', border: 0 }} aria-label={t('auth.splash.tapToContinue')} />
       </div>
       <style>{`@keyframes mtt-pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.35 } }`}</style>
     </Screen>
@@ -70,6 +71,7 @@ function SplashScreen({ onContinue }) {
 
 // ═══ 02. Welcome ════════════════════════════════════════════════════
 function WelcomeScreen({ onSignup, onLogin }) {
+  const { t } = useI18n();
   const [agreed, setAgreed] = useStateAuth(false);
   return (
     <Screen noBottomPad topSafe={false} bg="#FFF6E5">
@@ -100,17 +102,17 @@ function WelcomeScreen({ onSignup, onLogin }) {
       <div style={{ flex: 1, padding: '18px 24px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 18, position: 'relative', zIndex: 1 }}>
         <h1 style={{ font: '700 30px var(--font-display)', color: 'var(--primary)', margin: 0, letterSpacing: '-0.01em' }}>Miền Tỉnh Thức</h1>
         <p style={{ font: '400 15px/1.55 var(--font-body)', color: 'var(--fg-2)', textAlign: 'center', margin: 0, maxWidth: 320 }}>
-          Cộng đồng của những người thực hành Thiền và Tâm lý chữa lành nhằm xây dựng đời sống tỉnh thức, đời sống với giá trị Thật-Lành-Đẹp.
+          {t('auth.welcome.intro')}
         </p>
         <div style={{ flex: 1 }} />
         <div style={{ width: '100%' }}>
           <Checkbox checked={agreed} onChange={setAgreed}>
-            Tôi chấp thuận các <strong style={{ color: 'var(--primary)' }}>Điều khoản &amp; Điều kiện</strong> và xác nhận đã hiểu <strong style={{ color: 'var(--primary)' }}>Chính sách Bảo mật</strong> của Miền Tỉnh Thức.
+            {t('auth.welcome.agreeStart')}<strong style={{ color: 'var(--primary)' }}>{t('auth.welcome.terms')}</strong>{t('auth.welcome.agreeMid')}<strong style={{ color: 'var(--primary)' }}>{t('auth.welcome.privacy')}</strong>{t('auth.welcome.agreeEnd')}
           </Checkbox>
         </div>
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <PrimaryButton onClick={onSignup} disabled={!agreed}>Đăng ký</PrimaryButton>
-          <SecondaryButton onClick={onLogin}>Đăng nhập</SecondaryButton>
+          <PrimaryButton onClick={onSignup} disabled={!agreed}>{t('auth.welcome.signup')}</PrimaryButton>
+          <SecondaryButton onClick={onLogin}>{t('auth.welcome.login')}</SecondaryButton>
         </div>
       </div>
     </Screen>
@@ -119,6 +121,7 @@ function WelcomeScreen({ onSignup, onLogin }) {
 
 // ═══ 03. Sign-up chooser ════════════════════════════════════════════
 function SignupChooserScreen({ onEmail, onLogin, onBack, onApple, onGoogle, onFacebook }) {
+  const { t } = useI18n();
   return (
     <Screen noBottomPad topSafe={false}>
       <div style={{
@@ -139,12 +142,12 @@ function SignupChooserScreen({ onEmail, onLogin, onBack, onApple, onGoogle, onFa
         </div>
       </div>
       <div style={{ flex: 1, padding: '8px 24px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-        <h1 style={{ font: '700 28px var(--font-display)', color: 'var(--fg-1)', margin: '14px 0 4px' }}>Đăng ký tài khoản</h1>
+        <h1 style={{ font: '700 28px var(--font-display)', color: 'var(--fg-1)', margin: '14px 0 4px' }}>{t('auth.signup.title')}</h1>
         <p style={{ font: '400 15px var(--font-body)', color: 'var(--fg-2)', margin: 0, textAlign: 'center' }}>
-          Bắt đầu hành trình quay về với chính mình
+          {t('auth.signup.subtitle')}
         </p>
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12, marginTop: 22 }}>
-          <PrimaryButton variant="warm" icon="mail" onClick={onEmail}>Tiếp tục với Email</PrimaryButton>
+          <PrimaryButton variant="warm" icon="mail" onClick={onEmail}>{t('auth.signup.withEmail')}</PrimaryButton>
           <OrDivider />
           <SocialButton provider="google" onClick={onGoogle} />
           <SocialButton provider="facebook" onClick={onFacebook} />
@@ -152,8 +155,8 @@ function SignupChooserScreen({ onEmail, onLogin, onBack, onApple, onGoogle, onFa
         </div>
         <div style={{ flex: 1 }} />
         <p style={{ font: '400 14px var(--font-body)', color: 'var(--fg-2)', textAlign: 'center', margin: 0 }}>
-          Đã có tài khoản?{' '}
-          <button onClick={onLogin} style={{ background: 'transparent', border: 0, color: 'var(--primary)', font: '700 14px var(--font-body)', cursor: 'pointer', padding: 0 }}>Đăng nhập</button>
+          {t('auth.signup.haveAccount')}{' '}
+          <button onClick={onLogin} style={{ background: 'transparent', border: 0, color: 'var(--primary)', font: '700 14px var(--font-body)', cursor: 'pointer', padding: 0 }}>{t('auth.signup.loginLink')}</button>
         </p>
       </div>
     </Screen>
@@ -162,6 +165,7 @@ function SignupChooserScreen({ onEmail, onLogin, onBack, onApple, onGoogle, onFa
 
 // ═══ 04. Sign-in ════════════════════════════════════════════════════
 function LoginScreen({ onLogin, onSignup, onForgot, onBack }) {
+  const { t } = useI18n();
   const [email, setEmail] = useStateAuth('');
   const [pw, setPw] = useStateAuth('');
   return (
@@ -170,27 +174,27 @@ function LoginScreen({ onLogin, onSignup, onForgot, onBack }) {
       <ScrollArea>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 20px' }}>
           <img src="assets/logo-mark.png" alt="" style={{ width: 88 }} />
-          <h1 style={{ font: '700 32px var(--font-display)', color: 'var(--fg-1)', margin: '20px 0 4px', letterSpacing: '-0.01em' }}>Đăng nhập</h1>
-          <p style={{ font: '400 14px var(--font-body)', color: 'var(--fg-2)', margin: 0 }}>Chào mừng bạn quay lại</p>
+          <h1 style={{ font: '700 32px var(--font-display)', color: 'var(--fg-1)', margin: '20px 0 4px', letterSpacing: '-0.01em' }}>{t('auth.login.title')}</h1>
+          <p style={{ font: '400 14px var(--font-body)', color: 'var(--fg-2)', margin: 0 }}>{t('auth.login.welcomeBack')}</p>
         </div>
         <div style={{
           background: 'rgba(255,255,255,0.85)', borderRadius: 24, padding: 22,
           boxShadow: 'var(--shadow-soft)', display: 'flex', flexDirection: 'column', gap: 16,
         }}>
-          <TextField label="Email" value={email} onChange={setEmail} placeholder="example@email.com" type="email" />
-          <TextField label="Mật khẩu" value={pw} onChange={setPw} placeholder="••••••••" type="password" icon="lock" />
+          <TextField label={t('auth.login.email')} value={email} onChange={setEmail} placeholder="example@email.com" type="email" />
+          <TextField label={t('auth.login.password')} value={pw} onChange={setPw} placeholder="••••••••" type="password" icon="lock" />
           <div style={{ textAlign: 'right', marginTop: -4 }}>
-            <TextButton onClick={onForgot} color="var(--accent-warm)">Quên mật khẩu?</TextButton>
+            <TextButton onClick={onForgot} color="var(--accent-warm)">{t('auth.login.forgot')}</TextButton>
           </div>
-          <PrimaryButton variant="warm" onClick={onLogin}>Đăng nhập</PrimaryButton>
+          <PrimaryButton variant="warm" onClick={onLogin}>{t('auth.login.submit')}</PrimaryButton>
           <OrDivider />
           <SocialButton provider="google" />
           <SocialButton provider="facebook" />
           <SocialButton provider="apple" />
         </div>
         <p style={{ font: '400 14px var(--font-body)', color: 'var(--fg-2)', textAlign: 'center', margin: '20px 0' }}>
-          Chưa có tài khoản?{' '}
-          <button onClick={onSignup} style={{ background: 'transparent', border: 0, color: 'var(--accent-warm)', font: '700 14px var(--font-body)', cursor: 'pointer', padding: 0 }}>Tạo tài khoản</button>
+          {t('auth.login.noAccount')}{' '}
+          <button onClick={onSignup} style={{ background: 'transparent', border: 0, color: 'var(--accent-warm)', font: '700 14px var(--font-body)', cursor: 'pointer', padding: 0 }}>{t('auth.login.createAccount')}</button>
         </p>
       </ScrollArea>
     </Screen>
@@ -199,35 +203,36 @@ function LoginScreen({ onLogin, onSignup, onForgot, onBack }) {
 
 // ═══ 05. Email sign-up ═════════════════════════════════════════════
 function SignupEmailScreen({ onContinue, onLogin, onBack }) {
+  const { t } = useI18n();
   const [vals, setVals] = useStateAuth({ last: '', first: '', email: '', phone: '', pw: '', confirm: '' });
   const set = k => v => setVals({ ...vals, [k]: v });
   return (
     <Screen>
       <TopBar onBack={onBack} right={
         <span style={{ font: '400 13px var(--font-body)', color: 'var(--fg-2)', paddingRight: 6 }}>
-          Đã có tài khoản? <button onClick={onLogin} style={{ background:'transparent', border:0, color:'var(--accent-warm)', font: '700 13px var(--font-body)', cursor:'pointer', padding: 0 }}>Đăng nhập</button>
+          {t('auth.signup.haveAccount')} <button onClick={onLogin} style={{ background:'transparent', border:0, color:'var(--accent-warm)', font: '700 13px var(--font-body)', cursor:'pointer', padding: 0 }}>{t('auth.signup.loginLink')}</button>
         </span>
       } />
       <ScrollArea>
-        <h1 style={{ font: '700 28px var(--font-display)', color: 'var(--fg-1)', margin: '4px 0 22px', letterSpacing: '-0.01em' }}>Đăng ký bằng email</h1>
+        <h1 style={{ font: '700 28px var(--font-display)', color: 'var(--fg-1)', margin: '4px 0 22px', letterSpacing: '-0.01em' }}>{t('auth.signupEmail.title')}</h1>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           <div style={{ display: 'flex', gap: 12 }}>
             <div style={{ flex: '1 1 0', minWidth: 0 }}>
-              <TextField label="Họ" value={vals.last} onChange={set('last')} required placeholder="Nguyễn" />
+              <TextField label={t('auth.signupEmail.lastName')} value={vals.last} onChange={set('last')} required placeholder="Nguyễn" />
             </div>
             <div style={{ flex: '1 1 0', minWidth: 0 }}>
-              <TextField label="Tên" value={vals.first} onChange={set('first')} required placeholder="An" />
+              <TextField label={t('auth.signupEmail.firstName')} value={vals.first} onChange={set('first')} required placeholder="An" />
             </div>
           </div>
-          <TextField label="Email" value={vals.email} onChange={set('email')} required placeholder="email@example.com" type="email" />
-          <TextField label="Số điện thoại" value={vals.phone} onChange={set('phone')} placeholder="090 123 4567" type="tel" />
-          <TextField label="Mật khẩu" value={vals.pw} onChange={set('pw')} required placeholder="••••••••" type="password" />
-          <TextField label="Xác nhận mật khẩu" value={vals.confirm} onChange={set('confirm')} required placeholder="••••••••" type="password" />
+          <TextField label={t('auth.signupEmail.email')} value={vals.email} onChange={set('email')} required placeholder="email@example.com" type="email" />
+          <TextField label={t('auth.signupEmail.phone')} value={vals.phone} onChange={set('phone')} placeholder="090 123 4567" type="tel" />
+          <TextField label={t('auth.signupEmail.password')} value={vals.pw} onChange={set('pw')} required placeholder="••••••••" type="password" />
+          <TextField label={t('auth.signupEmail.confirm')} value={vals.confirm} onChange={set('confirm')} required placeholder="••••••••" type="password" />
         </div>
         <p style={{ font: '400 13px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: '18px 0' }}>
-          Bằng cách nhấn tiếp tục, bạn đồng ý với <strong style={{ color: 'var(--primary)' }}>điều khoản &amp; điều kiện</strong> và <strong style={{ color: 'var(--primary)' }}>chính sách bảo mật</strong> của đoàn thể.
+          {t('auth.signupEmail.agreeStart')}<strong style={{ color: 'var(--primary)' }}>{t('auth.signupEmail.terms')}</strong>{t('auth.signupEmail.agreeMid')}<strong style={{ color: 'var(--primary)' }}>{t('auth.signupEmail.privacy')}</strong>{t('auth.signupEmail.agreeEnd')}
         </p>
-        <PrimaryButton variant="warm" onClick={onContinue}>Tạo tài khoản</PrimaryButton>
+        <PrimaryButton variant="warm" onClick={onContinue}>{t('auth.signupEmail.submit')}</PrimaryButton>
         <div style={{ height: 24 }} />
       </ScrollArea>
     </Screen>
@@ -236,12 +241,13 @@ function SignupEmailScreen({ onContinue, onLogin, onBack }) {
 
 // ═══ 06. Forgot password ═══════════════════════════════════════════
 function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
+  const { t } = useI18n();
   const [email, setEmail] = useStateAuth('');
   const [done, setDone] = useStateAuth(!!sent);
   const submit = () => { setDone(true); onSubmit && onSubmit(); };
   return (
     <Screen>
-      <TopBar onBack={onBack} title="Quên mật khẩu" />
+      <TopBar onBack={onBack} title={t('auth.forgot.title')} />
       <ScrollArea>
         {!done ? (
           <>
@@ -249,16 +255,16 @@ function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
               <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#EEF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
                 <Icon name="lock_reset" size={44} />
               </div>
-              <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>Quên mật khẩu</h1>
+              <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>{t('auth.forgot.title')}</h1>
               <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: 0, maxWidth: 300 }}>
-                Nhập email của bạn để nhận hướng dẫn đặt lại mật khẩu.
+                {t('auth.forgot.desc')}
               </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <TextField label="Email" value={email} onChange={setEmail} placeholder="example@email.com" type="email" icon="mail" />
-              <PrimaryButton variant="warm" onClick={submit}>Gửi hướng dẫn</PrimaryButton>
+              <TextField label={t('auth.forgot.email')} value={email} onChange={setEmail} placeholder="example@email.com" type="email" icon="mail" />
+              <PrimaryButton variant="warm" onClick={submit}>{t('auth.forgot.send')}</PrimaryButton>
               <div style={{ textAlign: 'center' }}>
-                <TextButton onClick={onBack}>Quay lại đăng nhập</TextButton>
+                <TextButton onClick={onBack}>{t('auth.forgot.backToLogin')}</TextButton>
               </div>
             </div>
           </>
@@ -267,12 +273,12 @@ function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
             <div style={{ width: 88, height: 88, borderRadius: '50%', background: 'rgba(46,125,50,0.10)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="mark_email_read" size={48} color="var(--success)" filled />
             </div>
-            <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>Kiểm tra email của bạn</h1>
+            <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>{t('auth.forgot.checkEmail')}</h1>
             <p style={{ font: '400 14px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: 0, maxWidth: 320 }}>
-              Chúng tôi đã gửi hướng dẫn đặt lại mật khẩu nếu email này đã được đăng ký.
+              {t('auth.forgot.sentDesc')}
             </p>
             <div style={{ width: '100%', marginTop: 14 }}>
-              <PrimaryButton onClick={onBack}>Quay lại đăng nhập</PrimaryButton>
+              <PrimaryButton onClick={onBack}>{t('auth.forgot.backToLogin')}</PrimaryButton>
             </div>
           </div>
         )}
@@ -283,8 +289,9 @@ function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
 
 // ═══ 07. Basic onboarding (interest chips) ═════════════════════════
 function OnboardingScreen({ onFinish, onSkip }) {
-  const [selected, setSelected] = useStateAuth(new Set(['Thiền tập']));
-  const options = ['Thiền tập', 'Pháp thoại', 'Sự kiện cộng đồng', 'Kỹ năng sống', 'Nhật ký thực tập', 'Tâm lý chữa lành', 'Âm nhạc thư giãn'];
+  const { t } = useI18n();
+  const [selected, setSelected] = useStateAuth(new Set(['meditation']));
+  const optionIds = ['meditation', 'talks', 'community', 'lifeSkills', 'journal', 'healing', 'music'];
   const toggle = (opt) => {
     const next = new Set(selected);
     if (next.has(opt)) next.delete(opt); else next.add(opt);
@@ -292,17 +299,17 @@ function OnboardingScreen({ onFinish, onSkip }) {
   };
   return (
     <Screen>
-      <TopBar right={<TextButton onClick={onSkip}>Bỏ qua</TextButton>} />
+      <TopBar right={<TextButton onClick={onSkip}>{t('auth.onboarding.skip')}</TextButton>} />
       <ScrollArea>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '12px 0 22px', textAlign: 'center', gap: 12 }}>
           <Icon name="self_improvement" size={72} color="var(--accent-warm)" />
-          <h1 style={{ font: '700 26px var(--font-display)', color: 'var(--fg-1)', margin: 0, letterSpacing: '-0.01em' }}>Một vài bước nhỏ để bắt đầu</h1>
+          <h1 style={{ font: '700 26px var(--font-display)', color: 'var(--fg-1)', margin: 0, letterSpacing: '-0.01em' }}>{t('auth.onboarding.title')}</h1>
           <p style={{ font: '400 15px/1.55 var(--font-body)', color: 'var(--fg-2)', margin: 0, maxWidth: 320 }}>
-            Bạn quan tâm điều gì? Chọn vài chủ đề để chúng tôi gợi ý nội dung phù hợp.
+            {t('auth.onboarding.desc')}
           </p>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', margin: '12px 0 24px' }}>
-          {options.map(opt => {
+          {optionIds.map(opt => {
             const on = selected.has(opt);
             return (
               <button key={opt} onClick={() => toggle(opt)}
@@ -316,15 +323,15 @@ function OnboardingScreen({ onFinish, onSkip }) {
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                 }}>
                 {on && <Icon name="check" size={16} />}
-                {opt}
+                {t('auth.onboarding.options.' + opt)}
               </button>
             );
           })}
         </div>
         <div style={{ height: 20 }} />
-        <PrimaryButton variant="warm" onClick={onFinish}>Hoàn tất</PrimaryButton>
+        <PrimaryButton variant="warm" onClick={onFinish}>{t('auth.onboarding.finish')}</PrimaryButton>
         <div style={{ textAlign: 'center', marginTop: 12 }}>
-          <TextButton onClick={onSkip}>Bỏ qua</TextButton>
+          <TextButton onClick={onSkip}>{t('auth.onboarding.skip')}</TextButton>
         </div>
       </ScrollArea>
     </Screen>
