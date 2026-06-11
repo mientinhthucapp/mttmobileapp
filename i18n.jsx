@@ -6,6 +6,7 @@
 const { createContext: createContextI18n, useContext: useContextI18n, useState: useStateI18n } = React;
 
 const MTT_LANG_KEY = 'mtt.lang';
+const MTT_ONBOARDED_KEY = 'mtt.langOnboarded';
 
 const I18N = {
   // ─── Tiếng Việt (default) ─────────────────────────────────────────
@@ -37,6 +38,7 @@ const I18N = {
         more: 'Thêm & Hồ sơ',
       },
       screens: {
+        langSelect: 'Chọn ngôn ngữ',
         splash: 'Splash', welcome: 'Chào mừng', signup: 'Đăng ký', signupEmail: 'Đăng ký · Email',
         login: 'Đăng nhập', forgot: 'Quên mật khẩu', onboarding: 'Giới thiệu nhanh',
         home: 'Trang chủ', events: 'Danh sách sự kiện', eventDetails: 'Chi tiết sự kiện',
@@ -490,6 +492,7 @@ const I18N = {
         more: 'More & Profile',
       },
       screens: {
+        langSelect: 'Language selection',
         splash: 'Splash', welcome: 'Welcome', signup: 'Sign up', signupEmail: 'Sign up · Email',
         login: 'Log in', forgot: 'Forgot password', onboarding: 'Quick intro',
         home: 'Home', events: 'Events list', eventDetails: 'Event details',
@@ -928,6 +931,13 @@ function mttReadStoredLang() {
   return 'vi';
 }
 
+function mttReadOnboarded() {
+  try {
+    return localStorage.getItem(MTT_ONBOARDED_KEY) === 'true';
+  } catch (e) { /* storage unavailable — treat as not yet onboarded */ }
+  return false;
+}
+
 function mttTranslate(lang, key, vars) {
   let value = mttLookup(I18N[lang], key);
   if (value === undefined) value = mttLookup(I18N.vi, key); // fall back to Vietnamese
@@ -944,7 +954,11 @@ function mttTranslate(lang, key, vars) {
 const LanguageContext = createContextI18n(null);
 
 function LanguageProvider({ children }) {
+  // Both values are read synchronously from localStorage, so the very first
+  // render already uses the correct language and starting screen — there is no
+  // window in which the wrong language could briefly flash.
   const [lang, setLangState] = useStateI18n(mttReadStoredLang);
+  const [onboarded, setOnboarded] = useStateI18n(mttReadOnboarded);
 
   const setLang = (next) => {
     if (next !== 'vi' && next !== 'en') return;
@@ -953,10 +967,19 @@ function LanguageProvider({ children }) {
     document.documentElement.lang = next;
   };
 
+  // Called from the first-launch language screen: persist the chosen language
+  // and record that the one-time selection is complete. Anything invalid falls
+  // back to Vietnamese.
+  const completeLangOnboarding = (next) => {
+    setLang(next === 'en' ? 'en' : 'vi');
+    setOnboarded(true);
+    try { localStorage.setItem(MTT_ONBOARDED_KEY, 'true'); } catch (e) { /* ignore */ }
+  };
+
   const t = (key, vars) => mttTranslate(lang, key, vars);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, t, onboarded, completeLangOnboarding }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -966,7 +989,7 @@ function LanguageProvider({ children }) {
 function useI18n() {
   const ctx = useContextI18n(LanguageContext);
   if (ctx) return ctx;
-  return { lang: 'vi', setLang: () => {}, t: (key, vars) => mttTranslate('vi', key, vars) };
+  return { lang: 'vi', setLang: () => {}, t: (key, vars) => mttTranslate('vi', key, vars), onboarded: true, completeLangOnboarding: () => {} };
 }
 
 document.documentElement.lang = mttReadStoredLang();

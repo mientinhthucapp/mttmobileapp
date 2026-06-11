@@ -22,6 +22,85 @@ function ScrollArea({ children, padding = '0 16px' }) {
   return <div style={{ flex: 1, overflow: 'auto', padding, boxSizing: 'border-box' }}>{children}</div>;
 }
 
+// ═══ 00. First-launch language selection ════════════════════════════
+// Deliberately bilingual: it is shown before the user has chosen a language,
+// so every label appears in both Vietnamese and English at once.
+function LanguageOnboardingScreen({ onContinue }) {
+  const { lang } = useI18n();
+  const [selected, setSelected] = useStateAuth(lang === 'en' ? 'en' : 'vi');
+  const options = [
+    { code: 'vi', native: 'Tiếng Việt', other: 'Vietnamese', badge: 'VI' },
+    { code: 'en', native: 'English',    other: 'Tiếng Anh',  badge: 'EN' },
+  ];
+  return (
+    <Screen noBottomPad topSafe={false} bg="#FFF6E5">
+      {/* Warm background — same recipe as Welcome / Splash */}
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
+        backgroundImage: 'linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%)',
+      }} />
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60%', zIndex: 0, pointerEvents: 'none',
+        backgroundImage: 'radial-gradient(circle at 72% 32%, rgba(255,194,71,0.65), transparent 50%), radial-gradient(circle at 22% 60%, rgba(94,179,232,0.45), transparent 55%), radial-gradient(circle at 50% 12%, rgba(255,107,126,0.30), transparent 45%)',
+      }} />
+
+      <div style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column', padding: '76px 24px 28px' }}>
+        {/* Logo + bilingual title */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 26 }}>
+          <div style={{
+            width: 92, height: 92, borderRadius: '50%', background: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 18px 44px rgba(229,115,33,0.18)',
+          }}>
+            <img src="assets/logo-mark.png" alt="Miền Tỉnh Thức" style={{ width: 62, height: 'auto' }} />
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--primary)', margin: 0, letterSpacing: '-0.01em' }}>Chọn ngôn ngữ</h1>
+            <div style={{ font: '500 15px var(--font-body)', color: 'var(--fg-2)', marginTop: 3 }}>Choose your language</div>
+          </div>
+        </div>
+
+        {/* Language options */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {options.map(o => {
+            const on = selected === o.code;
+            return (
+              <button key={o.code} onClick={() => setSelected(o.code)} aria-pressed={on} style={{
+                display: 'flex', alignItems: 'center', gap: 14, width: '100%',
+                padding: '15px 18px', borderRadius: 18, cursor: 'pointer', textAlign: 'left',
+                background: on ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.7)',
+                border: '2px solid ' + (on ? 'var(--primary)' : 'transparent'),
+                boxShadow: on ? '0 10px 26px rgba(0,99,132,0.16)' : 'var(--shadow-soft)',
+                transition: 'all 160ms cubic-bezier(0.2,0,0,1)',
+              }}>
+                <span style={{
+                  width: 44, height: 44, borderRadius: '50%', flex: '0 0 auto',
+                  background: on ? 'var(--primary)' : '#EEF4FF', color: on ? '#fff' : 'var(--primary)',
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  font: '700 14px var(--font-body)', letterSpacing: '0.04em',
+                }}>{o.badge}</span>
+                <span style={{ flex: 1, minWidth: 0 }}>
+                  <span style={{ display: 'block', font: '700 16px var(--font-display)', color: 'var(--fg-1)' }}>{o.native}</span>
+                  <span style={{ display: 'block', font: '400 13px var(--font-body)', color: 'var(--fg-3)', marginTop: 1 }}>{o.other}</span>
+                </span>
+                <Icon name={on ? 'check_circle' : 'radio_button_unchecked'} size={24} color={on ? 'var(--primary)' : 'var(--fg-3)'} filled={on} />
+              </button>
+            );
+          })}
+        </div>
+
+        <div style={{ flex: 1 }} />
+
+        {/* Helper text — bilingual */}
+        <p style={{ textAlign: 'center', font: '400 13px/1.6 var(--font-body)', color: 'var(--fg-2)', margin: '0 0 14px' }}>
+          Bạn có thể thay đổi lại trong phần Cài đặt.<br/>
+          You can change this later in Settings.
+        </p>
+
+        <PrimaryButton onClick={() => onContinue && onContinue(selected)}>Tiếp tục · Continue</PrimaryButton>
+      </div>
+    </Screen>
+  );
+}
+
 // ═══ 01. Splash ═════════════════════════════════════════════════════
 function SplashScreen({ onContinue }) {
   const { t } = useI18n();
@@ -339,7 +418,7 @@ function OnboardingScreen({ onFinish, onSkip }) {
 }
 
 Object.assign(window, {
-  Screen, ScrollArea,
+  Screen, ScrollArea, LanguageOnboardingScreen,
   SplashScreen, WelcomeScreen, SignupChooserScreen, LoginScreen, SignupEmailScreen,
   ForgotPasswordScreen, OnboardingScreen,
 });

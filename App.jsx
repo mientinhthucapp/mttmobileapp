@@ -1,6 +1,6 @@
 /* global React, ReactDOM, IOSDevice, LanguageProvider, useI18n,
    SplashScreen, WelcomeScreen, SignupChooserScreen, LoginScreen, SignupEmailScreen,
-   ForgotPasswordScreen, OnboardingScreen,
+   ForgotPasswordScreen, OnboardingScreen, LanguageOnboardingScreen,
    HomeScreen, EventsScreen, EventDetailsScreen, RegisterEventScreen,
    ConfirmationScreen, EventQRScreen, MyEventsScreen,
    TalksLibraryScreen, ContentListScreen, ContentDetailsScreen,
@@ -13,7 +13,7 @@ const { useState } = React;
 
 // Screen keys organized by flow — labels come from the i18n dictionary (proto.*)
 const FLOWS = [
-  { titleKey: 'proto.flows.auth',  screens: ['splash', 'welcome', 'signup', 'signupEmail', 'login', 'forgot', 'onboarding'] },
+  { titleKey: 'proto.flows.auth',  screens: ['langSelect', 'splash', 'welcome', 'signup', 'signupEmail', 'login', 'forgot', 'onboarding'] },
   { titleKey: 'proto.flows.home',  screens: ['home', 'events', 'eventDetails', 'register', 'confirmation', 'qrCode', 'myEvents'] },
   { titleKey: 'proto.flows.talks', screens: ['talks', 'contentList', 'contentDetails', 'saved', 'playlists', 'playlistDetails'] },
   { titleKey: 'proto.flows.notif', screens: ['notif', 'notifDetails', 'notifSettings'] },
@@ -21,7 +21,11 @@ const FLOWS = [
 ];
 
 function App() {
-  const [screen, setScreen] = useState('splash');
+  // First launch (no saved choice) starts on the language screen; returning
+  // users go straight to the splash. `onboarded` is read synchronously, so the
+  // correct starting screen is chosen on the first render (no flash).
+  const { onboarded, completeLangOnboarding } = useI18n();
+  const [screen, setScreen] = useState(onboarded ? 'splash' : 'langSelect');
   const [openCategory, setOpenCategory] = useState(null);
   const [openContent, setOpenContent] = useState(null);
   const [openPlaylist, setOpenPlaylist] = useState(null);
@@ -42,6 +46,9 @@ function App() {
 
   let content;
   switch (screen) {
+    // First-launch language selection (shown once, before the splash)
+    case 'langSelect':   content = <LanguageOnboardingScreen onContinue={(l) => { completeLangOnboarding(l); setScreen('splash'); }} />; break;
+
     // Auth
     case 'splash':       content = <SplashScreen onContinue={go('welcome')} />; break;
     case 'welcome':      content = <WelcomeScreen onSignup={go('signup')} onLogin={go('login')} />; break;
