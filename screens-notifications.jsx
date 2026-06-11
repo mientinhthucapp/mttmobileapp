@@ -12,7 +12,7 @@ const NOTIFICATIONS = [
   { id: 'n1', kind: 'event',  icon: 'event_note',   iconBg: '#FFDCC7', iconColor: '#B85B00', unread: true },
   { id: 'n2', kind: 'talk',   icon: 'spa',          iconBg: '#C1E8FF', iconColor: '#006384', unread: true },
   { id: 'n3', kind: 'event',  icon: 'check_circle', iconBg: '#D7F0D7', iconColor: '#2E7D32', unread: false },
-  { id: 'n4', kind: 'system', icon: 'campaign',     iconBg: '#EEF4FF', iconColor: '#006384', unread: false },
+  { id: 'n4', kind: 'system', icon: 'campaign',     iconBg: 'var(--soft-fill)', iconColor: '#006384', unread: false },
   { id: 'n5', kind: 'talk',   icon: 'queue_music',  iconBg: '#DCD0E8', iconColor: '#5C3F86', unread: false },
 ];
 
@@ -40,7 +40,7 @@ function NotificationsScreen({ onBack, onOpenNotif, onSettings, onNavigate }) {
               return (
               <button key={n.id} onClick={() => onOpenNotif && onOpenNotif(n)}
                 style={{
-                  width: '100%', background: n.unread ? '#fff' : '#FAFBFF',
+                  width: '100%', background: n.unread ? 'var(--card)' : 'var(--surface-2)',
                   border: 0, padding: 14, borderRadius: 16,
                   boxShadow: n.unread ? 'var(--shadow-soft)' : 'none',
                   cursor: 'pointer', textAlign: 'left',
@@ -101,14 +101,14 @@ function NotificationDetailsScreen({ notif, onBack, onAction, onNavigate }) {
         </div>
 
         <div style={{
-          background: '#fff', borderRadius: 20, padding: 20,
+          background: 'var(--card)', borderRadius: 20, padding: 20,
           boxShadow: 'var(--shadow-soft)', marginBottom: 18,
         }}>
           <p style={{ font: '400 15px/1.7 var(--font-body)', color: 'var(--fg-2)', margin: 0 }}>
             {d.message}{t('notif.details.extra')}
           </p>
           {n.kind === 'event' && (
-            <div style={{ marginTop: 16, padding: 14, background: '#EEF4FF', borderRadius: 14 }}>
+            <div style={{ marginTop: 16, padding: 14, background: 'var(--soft-fill)', borderRadius: 14 }}>
               <div style={{ font: '700 11px var(--font-body)', letterSpacing: '0.18em', color: 'var(--fg-3)', marginBottom: 4 }}>{t('notif.details.eventLabel')}</div>
               <div style={{ font: '700 15px var(--font-display)', color: 'var(--fg-1)' }}>{t('events.data.tay-phat.title')}</div>
               <div style={{ font: '500 12px var(--font-body)', color: 'var(--fg-3)', marginTop: 2 }}>{t('notif.details.eventMeta')}</div>
@@ -155,7 +155,7 @@ function NotificationSettingsScreen({ onBack, onNavigate }) {
             title={t('notif.settings.community')} subtitle={t('notif.settings.communitySub')}
             right={<Toggle on={vals.community} onChange={set('community')} />} />
           <Divider />
-          <SettingsItem icon="campaign" iconBg="#EEF4FF" iconColor="#006384"
+          <SettingsItem icon="campaign" iconBg="var(--soft-fill)" iconColor="#006384"
             title={t('notif.settings.system')} subtitle={t('notif.settings.systemSub')}
             right={<Toggle on={vals.system} onChange={set('system')} />} />
         </SettingsCard>
@@ -177,7 +177,7 @@ function NotificationSettingsScreen({ onBack, onNavigate }) {
 function SettingsCard({ children }) {
   return (
     <div style={{
-      background: '#fff', borderRadius: 18, overflow: 'hidden',
+      background: 'var(--card)', borderRadius: 18, overflow: 'hidden',
       boxShadow: 'var(--shadow-soft)',
     }}>{children}</div>
   );
@@ -192,7 +192,7 @@ function SettingsItem({ icon, iconBg, iconColor, title, subtitle, right, onClick
       {icon && (
         <span style={{
           width: 40, height: 40, borderRadius: 12, flex: '0 0 auto',
-          background: iconBg || '#EEF4FF', color: danger ? 'var(--error)' : (iconColor || 'var(--primary)'),
+          background: iconBg || 'var(--soft-fill)', color: danger ? 'var(--error)' : (iconColor || 'var(--primary)'),
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <Icon name={icon} size={22} filled />

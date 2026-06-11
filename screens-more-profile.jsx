@@ -43,7 +43,7 @@ function ComingSoonTile({ icon, label, tint }) {
   const { t } = useI18n();
   return (
     <div style={{
-      background: '#fff', padding: 14, borderRadius: 18, boxShadow: 'var(--shadow-soft)',
+      background: 'var(--card)', padding: 14, borderRadius: 18, boxShadow: 'var(--shadow-soft)',
       display: 'flex', flexDirection: 'column', gap: 10, minHeight: 110, position: 'relative',
     }}>
       <ImageTile tint={tint} icon={icon} size={48} radius={12} />
@@ -74,7 +74,7 @@ function ContactScreen({ onBack, onSubmit, onNavigate }) {
           {t('contact.intro')}
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}>
-          <ContactTile icon="mail" label={t('contact.email')} sub="hello@mientinhthuc.vn" color="#006384" tint="#EEF4FF" />
+          <ContactTile icon="mail" label={t('contact.email')} sub="hello@mientinhthuc.vn" color="#006384" tint="var(--soft-fill)" />
           <ContactTile icon="call" label={t('contact.call')} sub="0901 234 567" color="#2E7D32" tint="#D7F0D7" />
           <ContactTile icon="forum" label={t('contact.zalo')} sub="@mientinhthuc" color="#0084FF" tint="#D8ECFF" />
           <ContactTile icon="chat" label={t('contact.viber')} sub={t('contact.viberSub')} color="#7360F2" tint="#EAE2FF" />
@@ -83,7 +83,7 @@ function ContactScreen({ onBack, onSubmit, onNavigate }) {
         </div>
         <SectionHeader title={t('contact.formTitle')} />
         {sent ? (
-          <div style={{ background: '#fff', borderRadius: 20, padding: 22, boxShadow: 'var(--shadow-soft)', textAlign: 'center' }}>
+          <div style={{ background: 'var(--card)', borderRadius: 20, padding: 22, boxShadow: 'var(--shadow-soft)', textAlign: 'center' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(46,125,50,0.10)', margin: '0 auto 12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="check_circle" size={40} color="var(--success)" filled />
             </div>
@@ -109,7 +109,7 @@ function ContactScreen({ onBack, onSubmit, onNavigate }) {
 function ContactTile({ icon, label, sub, color, tint }) {
   return (
     <button style={{
-      background: '#fff', border: 0, padding: 14, borderRadius: 16, cursor: 'pointer',
+      background: 'var(--card)', border: 0, padding: 14, borderRadius: 16, cursor: 'pointer',
       boxShadow: 'var(--shadow-soft)', textAlign: 'left',
       display: 'flex', flexDirection: 'column', gap: 8, minHeight: 110,
     }}>
@@ -131,7 +131,7 @@ function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents
       <TopBar title={t('profile.title')} onBack={onBack} />
       <ScrollArea padding="8px 16px 24px">
         <div style={{
-          background: '#fff', borderRadius: 22, padding: 18, boxShadow: 'var(--shadow-card)',
+          background: 'var(--card)', borderRadius: 22, padding: 18, boxShadow: 'var(--shadow-card)',
           display: 'flex', gap: 14, alignItems: 'center', marginBottom: 22,
         }}>
           <div style={{
@@ -146,13 +146,13 @@ function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents
             <div style={{ font: '500 13px var(--font-body)', color: 'var(--fg-3)' }}>annhien@example.com</div>
           </div>
           <button onClick={onViewProfile} style={{
-            background: '#EEF4FF', border: 0, padding: '8px 14px', borderRadius: 12,
+            background: 'var(--soft-fill)', border: 0, padding: '8px 14px', borderRadius: 12,
             color: 'var(--primary)', font: '700 13px var(--font-body)', cursor: 'pointer',
           }}>{t('profile.viewProfile')}</button>
         </div>
 
         <SettingsCard>
-          <SettingsItem icon="person" iconBg="#EEF4FF" title={t('profile.personal')} onClick={onViewProfile} />
+          <SettingsItem icon="person" iconBg="var(--soft-fill)" title={t('profile.personal')} onClick={onViewProfile} />
           <Divider />
           <SettingsItem icon="bookmark" iconBg="#FFE5D0" iconColor="#E57321" title={t('profile.savedContent')} onClick={onSaved} />
           <Divider />
@@ -174,7 +174,7 @@ function ProfileScreen({ onBack, onViewProfile, onSaved, onPlaylists, onMyEvents
 
         <div style={{ height: 18 }} />
         <SettingsCard>
-          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title={t('profile.logout')} danger onClick={onLogout} />
+          <SettingsItem icon="logout" iconBg="var(--error-soft)" iconColor="var(--error)" title={t('profile.logout')} danger onClick={onLogout} />
         </SettingsCard>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -253,7 +253,7 @@ function EditProfileScreen({ onBack, onSave, onNavigate }) {
             <button style={{
               position: 'absolute', bottom: -2, right: -2,
               width: 32, height: 32, borderRadius: '50%',
-              background: 'var(--primary)', color: '#fff', border: '3px solid #fff', cursor: 'pointer',
+              background: 'var(--primary)', color: 'var(--on-primary)', border: '3px solid var(--background)', cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}><Icon name="camera_alt" size={16} /></button>
           </div>
@@ -279,14 +279,19 @@ function EditProfileScreen({ onBack, onSave, onNavigate }) {
 
 // ═══ 30. Settings ═══════════════════════════════════════════════════
 function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
-  const { t, lang, setLang } = useI18n();
-  const [dark, setDark] = useStateMore(false);
+  const { t, lang, setLang, theme, setTheme } = useI18n();
   const [showLang, setShowLang] = useStateMore(false);
+  const [showTheme, setShowTheme] = useStateMore(false);
   const langOptions = [
     { code: 'vi', label: 'Tiếng Việt' },
     { code: 'en', label: 'English' },
   ];
+  const themeOptions = [
+    { code: 'light', icon: 'light_mode', label: t('settings.light') },
+    { code: 'dark',  icon: 'dark_mode',  label: t('settings.dark') },
+  ];
   const currentLangLabel = (langOptions.find(o => o.code === lang) || langOptions[0]).label;
+  const currentThemeLabel = (themeOptions.find(o => o.code === theme) || themeOptions[0]).label;
   return (
     <Screen>
       <TopBar title={t('settings.title')} onBack={onBack} />
@@ -303,7 +308,7 @@ function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
         <SettingsCard>
           <SettingsItem icon="language" title={t('settings.language')} right={<span style={{ font: '500 14px var(--font-body)', color: 'var(--fg-3)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>{currentLangLabel} <Icon name="chevron_right" size={18} color="var(--fg-3)" /></span>} onClick={() => setShowLang(true)} />
           <Divider />
-          <SettingsItem icon="dark_mode" title={t('settings.darkMode')} right={<Toggle on={dark} onChange={setDark} />} />
+          <SettingsItem icon="contrast" title={t('settings.appearance')} right={<span style={{ font: '500 14px var(--font-body)', color: 'var(--fg-3)', display: 'inline-flex', alignItems: 'center', gap: 6 }}>{currentThemeLabel} <Icon name="chevron_right" size={18} color="var(--fg-3)" /></span>} onClick={() => setShowTheme(true)} />
           <Divider />
           <SettingsItem icon="notifications" title={t('settings.notifSettings')} onClick={onNotifSettings} />
         </SettingsCard>
@@ -313,7 +318,7 @@ function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
         <SettingsCard>
           <SettingsItem icon="cleaning_services" title={t('settings.clearCache')} subtitle="124 MB" onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="logout" iconBg="#FFDAD6" iconColor="var(--error)" title={t('settings.logout')} danger onClick={onLogout} />
+          <SettingsItem icon="logout" iconBg="var(--error-soft)" iconColor="var(--error)" title={t('settings.logout')} danger onClick={onLogout} />
         </SettingsCard>
       </ScrollArea>
 
@@ -325,7 +330,7 @@ function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
         }}>
           <div onClick={e => e.stopPropagation()} style={{
-            background: '#fff', borderRadius: '24px 24px 0 0',
+            background: 'var(--card)', borderRadius: '24px 24px 0 0',
             padding: '14px 16px 40px',
             boxShadow: '0 -10px 30px rgba(7,29,48,0.12)',
           }}>
@@ -339,12 +344,51 @@ function SettingsScreen({ onBack, onNotifSettings, onLogout, onNavigate }) {
                   <button key={o.code} onClick={() => { setLang(o.code); setShowLang(false); }} style={{
                     display: 'flex', alignItems: 'center', gap: 12,
                     padding: '14px 16px', borderRadius: 14, cursor: 'pointer',
-                    background: active ? '#EEF4FF' : '#fff',
+                    background: active ? 'var(--soft-fill)' : 'var(--card)',
                     border: '1.5px solid ' + (active ? 'var(--primary)' : 'var(--outline-soft)'),
                     font: '600 15px var(--font-body)',
                     color: active ? 'var(--primary)' : 'var(--fg-1)',
                     textAlign: 'left',
                   }}>
+                    <span style={{ flex: 1 }}>{o.label}</span>
+                    {active && <Icon name="check_circle" size={20} color="var(--primary)" filled />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Appearance picker — bottom sheet (mirrors the language picker) */}
+      {showTheme && (
+        <div onClick={() => setShowTheme(false)} style={{
+          position: 'absolute', inset: 0, zIndex: 30,
+          background: 'rgba(7,29,48,0.35)',
+          display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: 'var(--card)', borderRadius: '24px 24px 0 0',
+            padding: '14px 16px 40px',
+            boxShadow: '0 -10px 30px rgba(7,29,48,0.12)',
+          }}>
+            <div style={{ width: 40, height: 4, borderRadius: 9999, background: 'var(--outline-soft)', margin: '0 auto 14px' }} />
+            <h3 style={{ font: '700 18px var(--font-display)', color: 'var(--fg-1)', margin: '0 0 4px' }}>{t('settings.appearance')}</h3>
+            <p style={{ font: '400 13px/1.5 var(--font-body)', color: 'var(--fg-3)', margin: '0 0 14px' }}>{t('settings.appearanceSheetDesc')}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {themeOptions.map(o => {
+                const active = theme === o.code;
+                return (
+                  <button key={o.code} onClick={() => { setTheme(o.code); setShowTheme(false); }} style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '14px 16px', borderRadius: 14, cursor: 'pointer',
+                    background: active ? 'var(--soft-fill)' : 'var(--card)',
+                    border: '1.5px solid ' + (active ? 'var(--primary)' : 'var(--outline-soft)'),
+                    font: '600 15px var(--font-body)',
+                    color: active ? 'var(--primary)' : 'var(--fg-1)',
+                    textAlign: 'left',
+                  }}>
+                    <Icon name={o.icon} size={20} color={active ? 'var(--primary)' : 'var(--fg-3)'} />
                     <span style={{ flex: 1 }}>{o.label}</span>
                     {active && <Icon name="check_circle" size={20} color="var(--primary)" filled />}
                   </button>
@@ -371,7 +415,7 @@ function PrivacyScreen({ onBack, onNavigate }) {
           {t('privacy.intro')}
         </p>
         <SettingsCard>
-          <SettingsItem icon="badge" iconBg="#EEF4FF" title={t('privacy.personalData')} subtitle={t('privacy.personalDataSub')} onClick={() => {}} />
+          <SettingsItem icon="badge" iconBg="var(--soft-fill)" title={t('privacy.personalData')} subtitle={t('privacy.personalDataSub')} onClick={() => {}} />
           <Divider />
           <SettingsItem icon="event_note" iconBg="#FFDCC7" iconColor="#B85B00" title={t('privacy.eventData')} subtitle={t('privacy.eventDataSub')} onClick={() => {}} />
           <Divider />
@@ -384,7 +428,7 @@ function PrivacyScreen({ onBack, onNavigate }) {
           <Divider />
           <SettingsItem icon="shield" title={t('privacy.policy')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="delete_forever" iconBg="#FFDAD6" iconColor="var(--error)" title={t('privacy.deleteAccount')} danger onClick={() => {}} />
+          <SettingsItem icon="delete_forever" iconBg="var(--error-soft)" iconColor="var(--error)" title={t('privacy.deleteAccount')} danger onClick={() => {}} />
         </SettingsCard>
       </ScrollArea>
       <BottomNav active="more" onNavigate={onNavigate} />
@@ -400,7 +444,7 @@ function SupportScreen({ onBack, onContact, onNavigate }) {
       <TopBar title={t('support.title')} onBack={onBack} />
       <ScrollArea padding="12px 16px 24px">
         <div style={{
-          background: 'linear-gradient(135deg, #C1E8FF 0%, #EEF4FF 100%)',
+          background: 'var(--support-gradient)',
           borderRadius: 20, padding: 20, marginBottom: 22,
         }}>
           <Icon name="support_agent" size={36} color="var(--primary)" filled />
@@ -410,7 +454,7 @@ function SupportScreen({ onBack, onContact, onNavigate }) {
           </p>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px',
-            background: '#fff', borderRadius: 12,
+            background: 'var(--card)', borderRadius: 12,
           }}>
             <Icon name="search" size={20} color="var(--fg-3)" />
             <input placeholder={t('support.searchPlaceholder')} style={{
@@ -421,18 +465,18 @@ function SupportScreen({ onBack, onContact, onNavigate }) {
         </div>
 
         <SettingsCard>
-          <SettingsItem icon="quiz" iconBg="#EEF4FF" title={t('support.faq')} subtitle={t('support.faqSub')} onClick={() => {}} />
+          <SettingsItem icon="quiz" iconBg="var(--soft-fill)" title={t('support.faq')} subtitle={t('support.faqSub')} onClick={() => {}} />
           <Divider />
           <SettingsItem icon="forum" iconBg="#FFDCC7" iconColor="#B85B00" title={t('support.contactOrganizers')} subtitle={t('support.contactOrganizersSub')} onClick={onContact} />
           <Divider />
           <SettingsItem icon="rate_review" iconBg="#D7F0D7" iconColor="#2E7D32" title={t('support.feedback')} subtitle={t('support.feedbackSub')} onClick={() => {}} />
           <Divider />
-          <SettingsItem icon="bug_report" iconBg="#FFDAD6" iconColor="var(--error)" title={t('support.reportBug')} onClick={() => {}} />
+          <SettingsItem icon="bug_report" iconBg="var(--error-soft)" iconColor="var(--error)" title={t('support.reportBug')} onClick={() => {}} />
         </SettingsCard>
 
         <div style={{ height: 22 }} />
         <SectionHeader title={t('support.directContact')} />
-        <div style={{ background: '#fff', borderRadius: 18, padding: 18, boxShadow: 'var(--shadow-soft)' }}>
+        <div style={{ background: 'var(--card)', borderRadius: 18, padding: 18, boxShadow: 'var(--shadow-soft)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
             <Icon name="mail" size={18} color="var(--primary)" />
             <span style={{ font: '500 14px var(--font-body)', color: 'var(--fg-1)' }}>hello@mientinhthuc.vn</span>
@@ -457,7 +501,7 @@ function AboutScreen({ onBack, onNavigate }) {
       <ScrollArea padding="12px 16px 24px">
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '20px 0 24px', gap: 14 }}>
           <div style={{
-            width: 110, height: 110, borderRadius: '50%', background: '#fff',
+            width: 110, height: 110, borderRadius: '50%', background: 'var(--card)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 16px 40px rgba(229,115,33,0.18)',
           }}>

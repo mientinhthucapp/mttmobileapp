@@ -99,7 +99,7 @@ function App() {
     <div style={{
       minHeight: '100vh', boxSizing: 'border-box',
       display: 'grid', gridTemplateColumns: '300px 1fr',
-      background: 'linear-gradient(180deg, #FFF6E5 0%, #E1F5FE 50%, #FFF3E0 100%)',
+      background: 'var(--app-gradient)',
     }}>
       <Sidebar current={screen} onChoose={setScreen} />
       <div style={{
@@ -135,8 +135,8 @@ function Sidebar({ current, onChoose }) {
   const { t } = useI18n();
   return (
     <aside style={{
-      borderRight: '1px solid rgba(190,200,207,0.4)',
-      background: 'rgba(255,255,255,0.55)',
+      borderRight: '1px solid var(--border)',
+      background: 'var(--glass)',
       backdropFilter: 'blur(12px)',
       padding: '28px 18px 32px',
       overflowY: 'auto', maxHeight: '100vh', position: 'sticky', top: 0,
@@ -165,12 +165,12 @@ function Sidebar({ current, onChoose }) {
                     border: 0, cursor: 'pointer', textAlign: 'left',
                     padding: '9px 12px', borderRadius: 10,
                     background: isActive ? 'var(--primary)' : 'transparent',
-                    color: isActive ? '#fff' : 'var(--fg-2)',
+                    color: isActive ? 'var(--on-primary)' : 'var(--fg-2)',
                     font: isActive ? '700 13px var(--font-body)' : '500 13px var(--font-body)',
                     boxShadow: isActive ? '0 6px 16px rgba(0,99,132,0.18)' : 'none',
                     display: 'flex', alignItems: 'center', gap: 8,
                   }}>
-                  {isActive && <span style={{ width: 4, height: 4, borderRadius: 9999, background: '#fff' }} />}
+                  {isActive && <span style={{ width: 4, height: 4, borderRadius: 9999, background: 'var(--on-primary)' }} />}
                   {label}
                 </button>
               );

@@ -76,6 +76,30 @@
   --fg-on-color: #ffffff;
   --fg-on-soft: #006384;
 
+  /* ---------- Theme surface tokens ----------
+     Light defaults; every one is overridden by [data-theme="dark"] below.
+     Components reference these instead of hard-coded #fff / #EEF4FF, etc. */
+  --card: #ffffff;               /* raised cards, buttons, list rows, modals */
+  --surface-2: #FAFBFF;          /* lower-elevation rows (e.g. read notifications) */
+  --soft-fill: #EEF4FF;          /* gentle primary-tinted fill (chips, icon badges, tracks) */
+  --input-bg: #ffffff;           /* text fields, search bars */
+  --glass: rgba(255,255,255,0.92);     /* frosted top bars / sidebar */
+  --tab-bar: rgba(255,255,255,0.96);   /* bottom navigation */
+  --tab-active: rgba(193,232,255,0.45);/* active bottom-nav pill */
+  --toggle-off: #D8DEE5;         /* switch track, off */
+  --border: var(--outline-soft);
+  --accent: var(--accent-warm);
+  --text-primary: var(--fg-1);
+  --text-secondary: var(--fg-2);
+
+  /* Page + hero gradients (decorative image gradients stay vibrant in both modes) */
+  --app-gradient: linear-gradient(180deg, #FFF6E5 0%, #E1F5FE 50%, #FFF3E0 100%);
+  --warm-bg: #FFF6E5;
+  --warm-sky-gradient: linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%);
+  --chooser-gradient: linear-gradient(180deg, #B7E1FF 0%, #FFD08A 55%, #FFE3D0 100%);
+  --quote-gradient: linear-gradient(135deg, #FFF1D6 0%, #DDF1FF 100%);
+  --support-gradient: linear-gradient(135deg, #C1E8FF 0%, #EEF4FF 100%);
+
   /* ---------- Type ---------- */
   --font-display: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body: "Plus Jakarta Sans", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -144,6 +168,82 @@
 }
 
 /* ============================================================
+   Dark theme — warm, calm, soft, peaceful.
+   Activated by [data-theme="dark"] on <html>. Avoids pure black;
+   leans warm charcoal / soft brown with a lifted oceanic primary
+   so links, icons and text stay readable. To retune the mood,
+   edit the surface + brand values in this single block.
+   ============================================================ */
+[data-theme="dark"] {
+  /* Brand — lifted for contrast on dark surfaces. Buttons keep dark text
+     (--on-primary) so the brighter primary stays readable. */
+  --primary: #5BC4E6;
+  --primary-hover: #7FD4F0;
+  --primary-soft: #123A45;
+  --on-primary: #052028;
+  --mtt-brand-blue-soft: #123A45;
+
+  --accent-warm: #F0A35E;
+  --accent-warm-soft: #3A2A1C;
+  --on-accent-warm: #2A1B0E;
+  --accent: var(--accent-warm);
+
+  /* Surfaces — warm charcoal / soft brown, never pure black */
+  --background: #1A1613;
+  --background-tint: #211B16;
+  --on-background: #F2EBE3;
+  --surface: #251F1A;
+  --surface-soft: #2C251F;
+  --surface-muted: #322A23;
+  --surface-strong: #3A3029;
+  --on-surface: #F2EBE3;
+  --on-surface-muted: #C9BEB4;
+
+  --card: #261F1A;
+  --surface-2: #221C18;
+  --soft-fill: #2E2620;
+  --input-bg: #1F1915;
+  --glass: rgba(31,25,21,0.86);
+  --tab-bar: rgba(26,21,18,0.96);
+  --tab-active: rgba(91,196,230,0.16);
+  --toggle-off: #4A4039;
+
+  /* Text */
+  --fg-1: #F2EBE3;
+  --fg-2: #C9BEB4;
+  --fg-3: #9E9389;
+  --fg-on-soft: #5BC4E6;
+
+  /* Outline / state */
+  --outline: #5A5048;
+  --outline-soft: #3A322C;
+  --border: var(--outline-soft);
+  --secondary-soft: #322A23;
+
+  --success: #6FD08C;
+  --success-soft: #1E3A24;
+  --warning: #F0A35E;
+  --error: #FFB4AB;
+  --error-soft: #4A2421;
+  --on-error: #401512;
+
+  /* Elevation — soft shadows read as gentle depth on dark */
+  --shadow-soft: 0 10px 30px rgba(0,0,0,0.35);
+  --shadow-card: 0 12px 32px rgba(0,0,0,0.42);
+  --shadow-floating: 0 16px 48px rgba(0,0,0,0.50);
+  --shadow-button-primary: 0 8px 24px rgba(0,0,0,0.40);
+  --shadow-button-warm: 0 8px 24px rgba(0,0,0,0.40);
+
+  /* Gradients — softened, warm, low-glare */
+  --app-gradient: linear-gradient(180deg, #221913 0%, #16161C 50%, #1F1711 100%);
+  --warm-bg: #1A1613;
+  --warm-sky-gradient: linear-gradient(180deg, #2A1E14 0%, #221A14 28%, #15171C 65%, #1A1613 92%);
+  --chooser-gradient: linear-gradient(180deg, #14222B 0%, #2A2014 55%, #241A12 100%);
+  --quote-gradient: linear-gradient(135deg, #2C2418 0%, #182028 100%);
+  --support-gradient: linear-gradient(135deg, #14303A 0%, #20262C 100%);
+}
+
+/* ============================================================
    Element defaults
    ============================================================ */
 
@@ -177,6 +277,10 @@ body {
 .t-dim              { color: var(--fg-3); }
 .t-primary          { color: var(--primary); }
 .t-warm             { color: var(--accent-warm); }
+
+/* Inputs inherit themed text + readable placeholder in both modes */
+input, textarea { color: var(--fg-1); }
+::placeholder { color: var(--fg-3); opacity: 1; }
 
 /* Icon font helper */
 .material-symbols-outlined {

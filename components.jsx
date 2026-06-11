@@ -36,7 +36,7 @@ function PrimaryButton({ children, onClick, icon, variant = 'blue', fullWidth = 
         width: fullWidth ? '100%' : 'auto',
         minHeight: h,
         padding: '0 28px',
-        background: bg, color: '#fff', border: 0, borderRadius: 9999,
+        background: bg, color: isWarm ? '#fff' : 'var(--on-primary)', border: 0, borderRadius: 9999,
         font: '700 16px var(--font-body)', boxShadow: shadow, cursor: 'pointer',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
         transition: 'transform 150ms cubic-bezier(0.2,0,0,1), background 220ms',
@@ -56,7 +56,7 @@ function SecondaryButton({ children, onClick, icon, fullWidth = true }) {
     <button onClick={onClick}
       style={{
         width: fullWidth ? '100%' : 'auto', minHeight: 52, padding: '0 24px',
-        background: '#fff', color: 'var(--primary)',
+        background: 'var(--card)', color: 'var(--primary)',
         border: '1.5px solid var(--outline-soft)', borderRadius: 9999,
         font: '600 16px var(--font-body)', cursor: 'pointer',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 10,
@@ -88,7 +88,7 @@ function TextField({ label, value, onChange, placeholder, type = 'text', icon, e
         </label>
       )}
       <div style={{
-        position: 'relative', display: 'flex', alignItems: 'center', background: '#fff',
+        position: 'relative', display: 'flex', alignItems: 'center', background: 'var(--input-bg)',
         border: `1.5px solid ${error ? 'var(--error)' : focused ? 'var(--primary)' : 'var(--outline-soft)'}`,
         borderRadius: 12,
         boxShadow: focused ? '0 0 0 4px rgba(0,99,132,0.18)' : 'none',
@@ -118,7 +118,7 @@ function TextArea({ label, value, onChange, placeholder, rows = 4 }) {
       <textarea value={value || ''} onChange={e => onChange && onChange(e.target.value)}
         placeholder={placeholder} rows={rows}
         style={{
-          padding: 14, background: '#fff',
+          padding: 14, background: 'var(--input-bg)',
           border: '1.5px solid var(--outline-soft)', borderRadius: 12,
           font: '400 15px var(--font-body)', color: 'var(--fg-1)',
           outline: 'none', resize: 'vertical',
@@ -140,7 +140,7 @@ function Checkbox({ checked, onChange, children }) {
           display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           transition: 'all 150ms',
         }}>
-        {checked && <Icon name="check" size={16} color="#fff" />}
+        {checked && <Icon name="check" size={16} color="var(--on-primary)" />}
       </span>
       <span>{children}</span>
     </label>
@@ -152,7 +152,7 @@ function Toggle({ on, onChange }) {
     <button onClick={() => onChange && onChange(!on)}
       style={{
         width: 50, height: 30, borderRadius: 9999, padding: 3,
-        background: on ? 'var(--primary)' : '#D8DEE5',
+        background: on ? 'var(--primary)' : 'var(--toggle-off)',
         border: 0, cursor: 'pointer', position: 'relative',
         transition: 'background 200ms',
         display: 'flex', alignItems: 'center',
@@ -171,11 +171,11 @@ function Toggle({ on, onChange }) {
 function Chip({ children, variant = 'soft', size = 'md', icon }) {
   const styles = {
     primary: { bg: '#C1E8FF', fg: 'var(--primary)' },
-    soft:    { bg: '#EEF4FF', fg: 'var(--primary)' },
+    soft:    { bg: 'var(--soft-fill)', fg: 'var(--primary)' },
     warm:    { bg: '#FFDCC7', fg: '#723600' },
     success: { bg: '#D7F0D7', fg: '#1B5E20' },
     status:  { bg: 'rgba(255,255,255,0.92)', fg: 'var(--primary)', upper: true, blur: true },
-    plain:   { bg: '#fff',   fg: 'var(--fg-2)', border: true },
+    plain:   { bg: 'var(--card)',   fg: 'var(--fg-2)', border: true },
   };
   const s = styles[variant];
   return (
@@ -208,8 +208,8 @@ function FilterPills({ items, active, onChange }) {
             style={{
               flex: '0 0 auto', padding: '8px 16px',
               borderRadius: 9999,
-              background: isActive ? 'var(--primary)' : '#EEF4FF',
-              color: isActive ? '#fff' : 'var(--primary)',
+              background: isActive ? 'var(--primary)' : 'var(--soft-fill)',
+              color: isActive ? 'var(--on-primary)' : 'var(--primary)',
               border: 0, cursor: 'pointer',
               font: '600 13px var(--font-body)',
               boxShadow: isActive ? '0 6px 16px rgba(0,99,132,0.18)' : 'none',
@@ -225,7 +225,7 @@ function FilterPills({ items, active, onChange }) {
 function SegmentedTabs({ items, active, onChange }) {
   return (
     <div style={{
-      background: '#EEF4FF', padding: 5, borderRadius: 9999,
+      background: 'var(--soft-fill)', padding: 5, borderRadius: 9999,
       display: 'flex', gap: 4,
     }}>
       {items.map(it => {
@@ -235,7 +235,7 @@ function SegmentedTabs({ items, active, onChange }) {
             style={{
               flex: 1, padding: '10px 8px', border: 0, cursor: 'pointer', borderRadius: 9999,
               background: isActive ? 'var(--primary)' : 'transparent',
-              color: isActive ? '#fff' : 'var(--primary)',
+              color: isActive ? 'var(--on-primary)' : 'var(--primary)',
               font: '600 14px var(--font-body)',
               boxShadow: isActive ? '0 6px 16px rgba(0,99,132,0.18)' : 'none',
               transition: 'all 220ms cubic-bezier(0.2,0,0,1)',
@@ -252,7 +252,7 @@ function TopBar({ title, onBack, right, transparent }) {
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '12px 8px', minHeight: 56,
-      background: transparent ? 'transparent' : 'rgba(255,255,255,0.92)',
+      background: transparent ? 'transparent' : 'var(--glass)',
       backdropFilter: transparent ? 'none' : 'blur(12px)',
       position: 'sticky', top: 0, zIndex: 10,
     }}>
@@ -331,9 +331,9 @@ function BottomNav({ active, onNavigate }) {
   return (
     <div style={{
       position: 'absolute', bottom: 0, left: 0, right: 0,
-      background: 'rgba(255,255,255,0.96)',
+      background: 'var(--tab-bar)',
       backdropFilter: 'blur(12px)',
-      borderTop: '1px solid rgba(190,200,207,0.4)',
+      borderTop: '1px solid var(--border)',
       borderRadius: '24px 24px 0 0',
       padding: '8px 6px 14px',
       display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 2,
@@ -345,7 +345,7 @@ function BottomNav({ active, onNavigate }) {
         return (
           <button key={it.key} onClick={() => onNavigate && onNavigate(it.key)}
             style={{
-              background: isActive ? 'rgba(193,232,255,0.45)' : 'transparent',
+              background: isActive ? 'var(--tab-active)' : 'transparent',
               border: 0, cursor: 'pointer',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
               padding: '8px 4px', borderRadius: 14,
@@ -391,7 +391,7 @@ function SocialButton({ provider, onClick, label }) {
   return (
     <button onClick={onClick} style={{
       width: '100%', minHeight: 52, padding: '0 24px',
-      background: '#fff', color: 'var(--fg-1)',
+      background: 'var(--card)', color: 'var(--fg-1)',
       border: '1.5px solid var(--outline-soft)', borderRadius: 9999,
       font: '600 15px var(--font-body)', cursor: 'pointer',
       display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 12,
@@ -434,7 +434,7 @@ function SectionHeader({ title, action, onAction, eyebrow }) {
 }
 
 // ─── List row (for settings, more menus) ───────────────────────────
-function ListRow({ icon, iconBg = '#EEF4FF', iconColor = 'var(--primary)', title, subtitle, right, onClick, danger }) {
+function ListRow({ icon, iconBg = 'var(--soft-fill)', iconColor = 'var(--primary)', title, subtitle, right, onClick, danger }) {
   return (
     <button onClick={onClick} style={{
       width: '100%', display: 'flex', alignItems: 'center', gap: 14,
@@ -463,7 +463,7 @@ function ListRow({ icon, iconBg = '#EEF4FF', iconColor = 'var(--primary)', title
 function Card({ children, padding = 18, style = {} }) {
   return (
     <div style={{
-      background: '#fff', borderRadius: 20, padding,
+      background: 'var(--card)', borderRadius: 20, padding,
       boxShadow: 'var(--shadow-soft)', ...style,
     }}>{children}</div>
   );
@@ -478,7 +478,7 @@ function EmptyState({ icon = 'inbox', title, message, action, onAction }) {
     }}>
       <div style={{
         width: 72, height: 72, borderRadius: '50%',
-        background: '#EEF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        background: 'var(--soft-fill)', display: 'flex', alignItems: 'center', justifyContent: 'center',
         color: 'var(--primary)',
       }}>
         <Icon name={icon} size={36} />

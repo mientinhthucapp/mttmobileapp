@@ -42,7 +42,7 @@ function TalksLibraryScreen({ onOpenCategory, onOpenContent, onSaved, onPlaylist
       <div style={{ padding: '4px 16px 8px' }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px',
-          background: '#fff', borderRadius: 14, boxShadow: 'var(--shadow-soft)', marginBottom: 12,
+          background: 'var(--card)', borderRadius: 14, boxShadow: 'var(--shadow-soft)', marginBottom: 12,
         }}>
           <Icon name="search" size={20} color="var(--fg-3)" />
           <input placeholder={t('talks.search')} style={{
@@ -66,7 +66,7 @@ function TalksLibraryScreen({ onOpenCategory, onOpenContent, onSaved, onPlaylist
           {TALK_CATEGORIES.map(c => (
             <button key={c.id} onClick={() => onOpenCategory && onOpenCategory(c)}
               style={{
-                background: '#fff', border: 0, padding: 14, borderRadius: 18,
+                background: 'var(--card)', border: 0, padding: 14, borderRadius: 18,
                 boxShadow: 'var(--shadow-soft)', cursor: 'pointer', textAlign: 'left',
                 display: 'flex', flexDirection: 'column', gap: 10, minHeight: 140,
               }}>
@@ -119,7 +119,7 @@ function QuickLink({ icon, iconColor, bg, label, sub, onClick }) {
 function AudioRow({ tint, title, speaker, duration, onClick, saved }) {
   return (
     <button onClick={onClick} style={{
-      width: '100%', background: '#fff', border: 0, padding: 12, borderRadius: 16,
+      width: '100%', background: 'var(--card)', border: 0, padding: 12, borderRadius: 16,
       boxShadow: 'var(--shadow-soft)', cursor: 'pointer', textAlign: 'left',
       display: 'flex', alignItems: 'center', gap: 14,
     }}>
@@ -170,7 +170,7 @@ function ContentListScreen({ category, onOpenContent, onBack, onNavigate }) {
           {CONTENT_LIST.map(c => (
             <button key={c.id} onClick={() => onOpenContent && onOpenContent(c)}
               style={{
-                width: '100%', background: '#fff', border: 0, padding: 12, borderRadius: 18,
+                width: '100%', background: 'var(--card)', border: 0, padding: 12, borderRadius: 18,
                 boxShadow: 'var(--shadow-soft)', cursor: 'pointer', textAlign: 'left',
                 display: 'flex', gap: 14, alignItems: 'center',
               }}>
@@ -242,7 +242,7 @@ function ContentDetailsScreen({ content, onBack, onNavigate, onAddToPlaylist }) 
             <div style={{ position: 'absolute', left: 16, right: 16, bottom: 14, display: 'flex', alignItems: 'center', gap: 10, color: '#fff' }}>
               <span style={{ font: '600 12px var(--font-body)' }}>00:00</span>
               <div style={{ flex: 1, height: 4, background: 'rgba(255,255,255,0.28)', borderRadius: 2 }}>
-                <div style={{ width: '12%', height: '100%', background: '#fff', borderRadius: 2 }} />
+                <div style={{ width: '12%', height: '100%', background: 'var(--card)', borderRadius: 2 }} />
               </div>
               <span style={{ font: '600 12px var(--font-body)' }}>{duration}</span>
             </div>
@@ -294,8 +294,8 @@ function ContentDetailsScreen({ content, onBack, onNavigate, onAddToPlaylist }) 
 function ActionPill({ icon, label, onClick, primary, active }) {
   return (
     <button onClick={onClick} style={{
-      background: primary ? 'var(--primary)' : active ? 'var(--accent-warm-soft)' : '#fff',
-      color: primary ? '#fff' : active ? 'var(--accent-warm)' : 'var(--fg-1)',
+      background: primary ? 'var(--primary)' : active ? 'var(--accent-warm-soft)' : 'var(--card)',
+      color: primary ? 'var(--on-primary)' : active ? 'var(--accent-warm)' : 'var(--fg-1)',
       border: primary ? 0 : '1px solid var(--outline-soft)',
       borderRadius: 14, padding: '10px 4px',
       cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
@@ -339,7 +339,7 @@ function AudioPlayer({ tint = 'ocean', title, duration, playing, onTogglePlay })
         <button style={{ background: 'transparent', border: 0, color: '#fff', cursor: 'pointer' }}><Icon name="replay_10" size={28} /></button>
         <button onClick={onTogglePlay} style={{
           width: 60, height: 60, borderRadius: '50%',
-          background: '#fff', border: 0, color: tints[tint] ? '#1A2540' : 'var(--primary)',
+          background: 'var(--card)', border: 0, color: tints[tint] ? '#1A2540' : 'var(--primary)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           boxShadow: '0 8px 22px rgba(0,0,0,0.22)',
         }}>
@@ -380,7 +380,7 @@ function SavedContentScreen({ onBack, onOpenContent, onNavigate }) {
             {list.map(c => (
               <button key={c.id} onClick={() => onOpenContent && onOpenContent(c)}
                 style={{
-                  width: '100%', background: '#fff', border: 0, padding: 12, borderRadius: 18,
+                  width: '100%', background: 'var(--card)', border: 0, padding: 12, borderRadius: 18,
                   boxShadow: 'var(--shadow-soft)', cursor: 'pointer', textAlign: 'left',
                   display: 'flex', gap: 14, alignItems: 'center',
                 }}>
@@ -419,7 +419,7 @@ function PlaylistsScreen({ onBack, onOpenPlaylist, onNavigate }) {
           {playlists.map(p => (
             <button key={p.id} onClick={() => onOpenPlaylist && onOpenPlaylist(p)}
               style={{
-                width: '100%', background: '#fff', border: 0, padding: 14, borderRadius: 18,
+                width: '100%', background: 'var(--card)', border: 0, padding: 14, borderRadius: 18,
                 boxShadow: 'var(--shadow-soft)', cursor: 'pointer', textAlign: 'left',
                 display: 'flex', gap: 14, alignItems: 'center',
               }}>
@@ -477,7 +477,7 @@ function PlaylistDetailsScreen({ playlist, onBack, onOpenContent, onNavigate }) 
           {items.map((it, i) => (
             <button key={it.id} onClick={() => onOpenContent && onOpenContent(it)}
               style={{
-                width: '100%', background: '#fff', border: 0, padding: 12, borderRadius: 14,
+                width: '100%', background: 'var(--card)', border: 0, padding: 12, borderRadius: 14,
                 cursor: 'pointer', textAlign: 'left',
                 display: 'flex', gap: 14, alignItems: 'center',
                 boxShadow: '0 2px 8px rgba(7,29,48,0.04)',

@@ -4,11 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Miền Tỉnh Thức · MVP01 Mobile Prototype</title>
-<link rel="stylesheet" href="colors_and_type.css">
+<link rel="stylesheet" href="colors_and_type.css?v=2">
+<script>
+  // Apply the saved theme + language before first paint so there is no
+  // flash of the wrong appearance. Defaults to Light / Vietnamese.
+  try {
+    var mttTheme = localStorage.getItem('mtt.theme');
+    document.documentElement.dataset.theme = (mttTheme === 'dark') ? 'dark' : 'light';
+    var mttLang = localStorage.getItem('mtt.lang');
+    if (mttLang === 'vi' || mttLang === 'en') document.documentElement.lang = mttLang;
+  } catch (e) { /* storage unavailable — keep defaults */ }
+</script>
 <style>
   html, body { margin: 0; padding: 0; }
   body {
-    background: linear-gradient(180deg, #FFF6E5 0%, #E1F5FE 50%, #FFF3E0 100%);
+    background: var(--app-gradient);
     min-height: 100vh;
     font-family: var(--font-body);
   }

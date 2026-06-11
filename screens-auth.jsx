@@ -33,10 +33,10 @@ function LanguageOnboardingScreen({ onContinue }) {
     { code: 'en', native: 'English',    other: 'Tiếng Anh',  badge: 'EN' },
   ];
   return (
-    <Screen noBottomPad topSafe={false} bg="#FFF6E5">
+    <Screen noBottomPad topSafe={false} bg="var(--warm-bg)">
       {/* Warm background — same recipe as Welcome / Splash */}
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%)',
+        backgroundImage: 'var(--warm-sky-gradient)',
       }} />
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60%', zIndex: 0, pointerEvents: 'none',
         backgroundImage: 'radial-gradient(circle at 72% 32%, rgba(255,194,71,0.65), transparent 50%), radial-gradient(circle at 22% 60%, rgba(94,179,232,0.45), transparent 55%), radial-gradient(circle at 50% 12%, rgba(255,107,126,0.30), transparent 45%)',
@@ -46,7 +46,7 @@ function LanguageOnboardingScreen({ onContinue }) {
         {/* Logo + bilingual title */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 26 }}>
           <div style={{
-            width: 92, height: 92, borderRadius: '50%', background: '#fff',
+            width: 92, height: 92, borderRadius: '50%', background: 'var(--card)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 18px 44px rgba(229,115,33,0.18)',
           }}>
@@ -66,14 +66,14 @@ function LanguageOnboardingScreen({ onContinue }) {
               <button key={o.code} onClick={() => setSelected(o.code)} aria-pressed={on} style={{
                 display: 'flex', alignItems: 'center', gap: 14, width: '100%',
                 padding: '15px 18px', borderRadius: 18, cursor: 'pointer', textAlign: 'left',
-                background: on ? 'rgba(255,255,255,0.96)' : 'rgba(255,255,255,0.7)',
+                background: on ? 'var(--card)' : 'var(--surface-2)',
                 border: '2px solid ' + (on ? 'var(--primary)' : 'transparent'),
                 boxShadow: on ? '0 10px 26px rgba(0,99,132,0.16)' : 'var(--shadow-soft)',
                 transition: 'all 160ms cubic-bezier(0.2,0,0,1)',
               }}>
                 <span style={{
                   width: 44, height: 44, borderRadius: '50%', flex: '0 0 auto',
-                  background: on ? 'var(--primary)' : '#EEF4FF', color: on ? '#fff' : 'var(--primary)',
+                  background: on ? 'var(--primary)' : 'var(--soft-fill)', color: on ? 'var(--on-primary)' : 'var(--primary)',
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                   font: '700 14px var(--font-body)', letterSpacing: '0.04em',
                 }}>{o.badge}</span>
@@ -105,16 +105,16 @@ function LanguageOnboardingScreen({ onContinue }) {
 function SplashScreen({ onContinue }) {
   const { t } = useI18n();
   return (
-    <Screen noBottomPad topSafe={false} bg="#FFF6E5">
+    <Screen noBottomPad topSafe={false} bg="var(--warm-bg)">
       <div style={{ position: 'absolute', inset: 0,
-        backgroundImage: 'linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%)',
+        backgroundImage: 'var(--warm-sky-gradient)',
       }} />
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60%',
         backgroundImage: 'radial-gradient(circle at 72% 32%, rgba(255,194,71,0.65), transparent 50%), radial-gradient(circle at 22% 60%, rgba(94,179,232,0.45), transparent 55%), radial-gradient(circle at 50% 12%, rgba(255,107,126,0.30), transparent 45%)',
       }} />
       <div style={{ position: 'relative', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 120, gap: 22 }}>
         <div style={{
-          width: 132, height: 132, borderRadius: '50%', background: '#fff',
+          width: 132, height: 132, borderRadius: '50%', background: 'var(--card)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 24px 60px rgba(229,115,33,0.18)',
         }}>
@@ -153,9 +153,9 @@ function WelcomeScreen({ onSignup, onLogin }) {
   const { t } = useI18n();
   const [agreed, setAgreed] = useStateAuth(false);
   return (
-    <Screen noBottomPad topSafe={false} bg="#FFF6E5">
+    <Screen noBottomPad topSafe={false} bg="var(--warm-bg)">
       <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: 'linear-gradient(180deg, #FFDDB0 0%, #FFE7C2 25%, #C7EAFF 60%, #FFFDF9 88%)',
+        backgroundImage: 'var(--warm-sky-gradient)',
       }} />
       <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '60%', zIndex: 0, pointerEvents: 'none',
         backgroundImage: 'radial-gradient(circle at 72% 32%, rgba(255,194,71,0.65), transparent 50%), radial-gradient(circle at 22% 60%, rgba(94,179,232,0.45), transparent 55%), radial-gradient(circle at 50% 12%, rgba(255,107,126,0.30), transparent 45%)',
@@ -205,7 +205,7 @@ function SignupChooserScreen({ onEmail, onLogin, onBack, onApple, onGoogle, onFa
     <Screen noBottomPad topSafe={false}>
       <div style={{
         height: 280, width: '100%', position: 'relative',
-        background: 'linear-gradient(180deg, #B7E1FF 0%, #FFD08A 55%, #FFE3D0 100%)',
+        background: 'var(--chooser-gradient)',
         overflow: 'hidden',
       }}>
         <div style={{ position: 'absolute', inset: 0,
@@ -257,7 +257,7 @@ function LoginScreen({ onLogin, onSignup, onForgot, onBack }) {
           <p style={{ font: '400 14px var(--font-body)', color: 'var(--fg-2)', margin: 0 }}>{t('auth.login.welcomeBack')}</p>
         </div>
         <div style={{
-          background: 'rgba(255,255,255,0.85)', borderRadius: 24, padding: 22,
+          background: 'var(--card)', borderRadius: 24, padding: 22,
           boxShadow: 'var(--shadow-soft)', display: 'flex', flexDirection: 'column', gap: 16,
         }}>
           <TextField label={t('auth.login.email')} value={email} onChange={setEmail} placeholder="example@email.com" type="email" />
@@ -331,7 +331,7 @@ function ForgotPasswordScreen({ onSubmit, onBack, sent }) {
         {!done ? (
           <>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 0 28px', textAlign: 'center', gap: 14 }}>
-              <div style={{ width: 80, height: 80, borderRadius: '50%', background: '#EEF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--soft-fill)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
                 <Icon name="lock_reset" size={44} />
               </div>
               <h1 style={{ font: '700 24px var(--font-display)', color: 'var(--fg-1)', margin: 0 }}>{t('auth.forgot.title')}</h1>
@@ -394,8 +394,8 @@ function OnboardingScreen({ onFinish, onSkip }) {
               <button key={opt} onClick={() => toggle(opt)}
                 style={{
                   padding: '12px 18px', borderRadius: 9999,
-                  background: on ? 'var(--primary)' : '#fff',
-                  color: on ? '#fff' : 'var(--fg-1)',
+                  background: on ? 'var(--primary)' : 'var(--card)',
+                  color: on ? 'var(--on-primary)' : 'var(--fg-1)',
                   border: on ? 0 : '1.5px solid var(--outline-soft)',
                   font: '600 14px var(--font-body)', cursor: 'pointer',
                   boxShadow: on ? '0 6px 16px rgba(0,99,132,0.18)' : 'none',

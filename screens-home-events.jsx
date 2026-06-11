@@ -59,13 +59,13 @@ function HomeScreen({ onOpenEvent, onProfile, onNotifications, onOpenTalk, onNav
           <SectionHeader title={t('home.upcomingEvents')} action={t('common.viewAll')} onAction={() => onNavigate && onNavigate('events')} />
           <div onClick={onOpenEvent}
             style={{
-              background: '#fff', borderRadius: 20, padding: 16,
+              background: 'var(--card)', borderRadius: 20, padding: 16,
               display: 'flex', gap: 16, alignItems: 'center',
               boxShadow: 'var(--shadow-soft)', cursor: 'pointer',
             }}>
             <div style={{
               width: 80, height: 92, borderRadius: 14,
-              background: '#EEF4FF', color: 'var(--primary)',
+              background: 'var(--soft-fill)', color: 'var(--primary)',
               display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             }}>
               <div style={{ font: '700 28px var(--font-display)', lineHeight: 1, letterSpacing: '-0.01em' }}>{t('home.eventDay')}</div>
@@ -86,7 +86,7 @@ function HomeScreen({ onOpenEvent, onProfile, onNotifications, onOpenTalk, onNav
         {/* Reminder quote card */}
         <div style={{
           marginTop: 22,
-          background: 'linear-gradient(135deg, #FFF1D6 0%, #DDF1FF 100%)',
+          background: 'var(--quote-gradient)',
           borderRadius: 24, padding: '22px 22px 20px',
           boxShadow: 'var(--shadow-soft)',
         }}>
@@ -188,7 +188,7 @@ function EventsScreen({ onOpenEvent, onProfile, onNotifications, onNavigate }) {
       <div style={{ padding: '4px 16px 8px' }}>
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px',
-          background: '#fff', borderRadius: 14, boxShadow: 'var(--shadow-soft)', marginBottom: 12,
+          background: 'var(--card)', borderRadius: 14, boxShadow: 'var(--shadow-soft)', marginBottom: 12,
         }}>
           <Icon name="search" size={20} color="var(--fg-3)" />
           <input placeholder={t('events.search')} style={{
@@ -227,7 +227,7 @@ function EventCard({ tint, icon, title, date, time, location, desc, status, onOp
   };
   const badgeLabel = status === 'registered' ? t('events.badgeRegistered') : t('events.badgeUpcoming');
   return (
-    <div style={{ background: '#fff', borderRadius: 24, overflow: 'hidden', boxShadow: 'var(--shadow-card)', border: '1px solid rgba(7,29,48,0.04)' }}>
+    <div style={{ background: 'var(--card)', borderRadius: 24, overflow: 'hidden', boxShadow: 'var(--shadow-card)', border: '1px solid rgba(7,29,48,0.04)' }}>
       <div style={{ height: 170, background: tints[tint] || tints.forest, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position:'absolute', inset:0, background:'radial-gradient(circle at 50% 40%, rgba(255,235,180,0.4), transparent 55%)' }} />
         <Icon name={icon} size={120} style={{ position: 'absolute', right: 10, bottom: -8, color: 'rgba(255,255,255,0.28)' }} filled />
@@ -256,14 +256,14 @@ function EventCard({ tint, icon, title, date, time, location, desc, status, onOp
           </button>
           {status === 'registered' ? (
             <button onClick={onOpen} style={{
-              background: '#fff', color: 'var(--success)', border: '1.5px solid var(--success)',
+              background: 'var(--card)', color: 'var(--success)', border: '1.5px solid var(--success)',
               padding: '10px 22px', borderRadius: 14,
               font: '700 13px var(--font-body)', cursor: 'pointer',
               display: 'inline-flex', alignItems: 'center', gap: 6,
             }}><Icon name="qr_code_2" size={16} />{t('events.viewQR')}</button>
           ) : (
             <button onClick={onOpen} style={{
-              background: 'var(--primary)', color: '#fff', border: 0,
+              background: 'var(--primary)', color: 'var(--on-primary)', border: 0,
               padding: '11px 26px', borderRadius: 14,
               font: '700 13px var(--font-body)', cursor: 'pointer',
               boxShadow: '0 8px 22px rgba(0,99,132,0.20)',
@@ -347,7 +347,7 @@ function EventDetailsScreen({ onRegister, onBack, onNavigate, onShowQR, isRegist
 
 function InfoRow({ icon, label, value }) {
   return (
-    <div style={{ background: '#EEF4FF', padding: '12px 16px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
+    <div style={{ background: 'var(--soft-fill)', padding: '12px 16px', borderRadius: 14, display: 'flex', alignItems: 'center', gap: 14 }}>
       <span style={{ width: 36, height: 36, borderRadius: 10, background: 'rgba(0,99,132,0.10)', display:'inline-flex', alignItems:'center', justifyContent:'center', color: 'var(--primary)' }}>
         <Icon name={icon} size={20} />
       </span>
@@ -381,7 +381,7 @@ function ShareBtn({ icon, label, color }) {
   return (
     <button style={{
       flex: 1, padding: '10px 6px', border: 0,
-      background: '#fff', borderRadius: 14, cursor: 'pointer',
+      background: 'var(--card)', borderRadius: 14, cursor: 'pointer',
       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
       boxShadow: 'var(--shadow-soft)',
     }}>
@@ -405,7 +405,7 @@ function RegisterEventScreen({ onSubmit, onBack }) {
     <Screen>
       <TopBar title={t('events.registerForm.title')} onBack={onBack} />
       <ScrollArea padding="8px 16px 24px">
-        <div style={{ background:'#fff', borderRadius: 24, overflow: 'hidden', boxShadow: 'var(--shadow-soft)', marginBottom: 24 }}>
+        <div style={{ background:'var(--card)', borderRadius: 24, overflow: 'hidden', boxShadow: 'var(--shadow-soft)', marginBottom: 24 }}>
           <div style={{ height: 130, background:'linear-gradient(135deg, #4FC489 0%, #2E8A53 100%)', position:'relative' }}>
             <Icon name="forest" size={120} style={{ position: 'absolute', right: 0, bottom: -8, color: 'rgba(255,255,255,0.32)' }} filled />
             <div style={{ position:'absolute', left:14, top:14 }}><Chip variant="status">{t('events.badgeUpcoming')}</Chip></div>
@@ -449,7 +449,7 @@ function RegisterEventScreen({ onSubmit, onBack }) {
                 return (
                   <button key={o.k} onClick={() => set('visited')(o.k)} style={{
                     flex: 1, padding: '10px 8px', borderRadius: 12,
-                    background: on ? '#EEF4FF' : '#fff',
+                    background: on ? 'var(--soft-fill)' : 'var(--card)',
                     border: '1.5px solid ' + (on ? 'var(--primary)' : 'var(--outline-soft)'),
                     color: on ? 'var(--primary)' : 'var(--fg-2)',
                     font: '600 13px var(--font-body)', cursor: 'pointer',
@@ -500,7 +500,7 @@ function ConfirmationScreen({ onShowQR, onHome, onMyEvents, onBack, onNavigate }
         </div>
 
         <div style={{
-          background: '#fff', borderRadius: 24, padding: 20,
+          background: 'var(--card)', borderRadius: 24, padding: 20,
           boxShadow: 'var(--shadow-card)', marginBottom: 18,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -540,12 +540,12 @@ function ConfirmationScreen({ onShowQR, onHome, onMyEvents, onBack, onNavigate }
 function QRCodeBlock({ id }) {
   return (
     <div style={{
-      background: '#fff', borderRadius: 24, padding: 22, textAlign: 'center',
+      background: 'var(--card)', borderRadius: 24, padding: 22, textAlign: 'center',
       boxShadow: 'var(--shadow-soft)',
     }}>
       <div style={{
         width: 180, height: 180, margin: '0 auto 14px',
-        background: 'linear-gradient(135deg, #EEF4FF, #fff)',
+        background: 'linear-gradient(135deg, var(--soft-fill), var(--card))',
         borderRadius: 18, position: 'relative',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
@@ -569,7 +569,7 @@ function EventQRScreen({ onBack, onOpenEvent, onNavigate, status = 'not-checked'
     <Screen>
       <TopBar title={t('events.qr.title')} onBack={onBack} />
       <ScrollArea padding="12px 20px 24px">
-        <div style={{ background: '#fff', borderRadius: 24, padding: 22, boxShadow: 'var(--shadow-card)', marginBottom: 16 }}>
+        <div style={{ background: 'var(--card)', borderRadius: 24, padding: 22, boxShadow: 'var(--shadow-card)', marginBottom: 16 }}>
           <h3 style={{ font: '700 20px/1.25 var(--font-display)', color: 'var(--fg-1)', margin: '0 0 12px' }}>{t('events.data.tay-phat.title')}</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--fg-3)', font: '500 13px var(--font-body)' }}>
@@ -631,7 +631,7 @@ function MyEventsScreen({ onBack, onOpenEvent, onShowQR, onNavigate, onProfile }
             {list.map(ev => {
               const d = t('events.my.data.' + ev.id);
               return (
-              <div key={ev.id} style={{ background: '#fff', borderRadius: 20, padding: 16, boxShadow: 'var(--shadow-soft)' }}>
+              <div key={ev.id} style={{ background: 'var(--card)', borderRadius: 20, padding: 16, boxShadow: 'var(--shadow-soft)' }}>
                 <div style={{ display: 'flex', gap: 14 }}>
                   <ImageTile tint={ev.tint} icon={ev.icon} size={64} radius={14} />
                   <div style={{ flex: 1, minWidth: 0 }}>
@@ -652,14 +652,14 @@ function MyEventsScreen({ onBack, onOpenEvent, onShowQR, onNavigate, onProfile }
                       : <Chip variant="warm" icon="schedule">{t('events.qr.notCheckedIn')}</Chip>}
                   <div style={{ display: 'flex', gap: 8 }}>
                     <button onClick={() => onOpenEvent && onOpenEvent(ev.id)} style={{
-                      background: '#fff', border: '1.5px solid var(--outline-soft)',
+                      background: 'var(--card)', border: '1.5px solid var(--outline-soft)',
                       padding: '8px 14px', borderRadius: 10, color: 'var(--fg-2)',
                       font: '600 13px var(--font-body)', cursor: 'pointer',
                     }}>{t('events.my.details')}</button>
                     {ev.status !== 'attended' && (
                       <button onClick={onShowQR} style={{
                         background: 'var(--primary)', border: 0,
-                        padding: '8px 14px', borderRadius: 10, color: '#fff',
+                        padding: '8px 14px', borderRadius: 10, color: 'var(--on-primary)',
                         font: '700 13px var(--font-body)', cursor: 'pointer',
                         display: 'inline-flex', alignItems: 'center', gap: 6,
                       }}><Icon name="qr_code_2" size={14} />{t('events.my.viewQR')}</button>

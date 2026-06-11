@@ -7,6 +7,7 @@ const { createContext: createContextI18n, useContext: useContextI18n, useState: 
 
 const MTT_LANG_KEY = 'mtt.lang';
 const MTT_ONBOARDED_KEY = 'mtt.langOnboarded';
+const MTT_THEME_KEY = 'mtt.theme';
 
 const I18N = {
   // ─── Tiếng Việt (default) ─────────────────────────────────────────
@@ -410,6 +411,10 @@ const I18N = {
       appPrefs: 'Tuỳ chọn ứng dụng',
       language: 'Ngôn ngữ',
       languageSheetDesc: 'Chọn ngôn ngữ hiển thị của ứng dụng.',
+      appearance: 'Giao diện',
+      appearanceSheetDesc: 'Chọn giao diện sáng hoặc tối.',
+      light: 'Sáng',
+      dark: 'Tối',
       darkMode: 'Giao diện tối',
       notifSettings: 'Cài đặt thông báo',
       other: 'Khác',
@@ -864,6 +869,10 @@ const I18N = {
       appPrefs: 'App preferences',
       language: 'Language',
       languageSheetDesc: 'Choose the display language of the app.',
+      appearance: 'Appearance',
+      appearanceSheetDesc: 'Choose a light or dark appearance.',
+      light: 'Light',
+      dark: 'Dark',
       darkMode: 'Dark mode',
       notifSettings: 'Notification settings',
       other: 'Other',
@@ -938,6 +947,14 @@ function mttReadOnboarded() {
   return false;
 }
 
+function mttReadTheme() {
+  try {
+    const stored = localStorage.getItem(MTT_THEME_KEY);
+    if (stored === 'light' || stored === 'dark') return stored;
+  } catch (e) { /* storage unavailable — default to Light */ }
+  return 'light';
+}
+
 function mttTranslate(lang, key, vars) {
   let value = mttLookup(I18N[lang], key);
   if (value === undefined) value = mttLookup(I18N.vi, key); // fall back to Vietnamese
@@ -959,12 +976,21 @@ function LanguageProvider({ children }) {
   // window in which the wrong language could briefly flash.
   const [lang, setLangState] = useStateI18n(mttReadStoredLang);
   const [onboarded, setOnboarded] = useStateI18n(mttReadOnboarded);
+  const [theme, setThemeState] = useStateI18n(mttReadTheme);
 
   const setLang = (next) => {
     if (next !== 'vi' && next !== 'en') return;
     setLangState(next);
     try { localStorage.setItem(MTT_LANG_KEY, next); } catch (e) { /* ignore */ }
     document.documentElement.lang = next;
+  };
+
+  // Light is the default; anything other than 'dark' resolves to 'light'.
+  const setTheme = (next) => {
+    const value = next === 'dark' ? 'dark' : 'light';
+    setThemeState(value);
+    try { localStorage.setItem(MTT_THEME_KEY, value); } catch (e) { /* ignore */ }
+    document.documentElement.dataset.theme = value;
   };
 
   // Called from the first-launch language screen: persist the chosen language
@@ -979,7 +1005,7 @@ function LanguageProvider({ children }) {
   const t = (key, vars) => mttTranslate(lang, key, vars);
 
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, onboarded, completeLangOnboarding }}>
+    <LanguageContext.Provider value={{ lang, setLang, t, onboarded, completeLangOnboarding, theme, setTheme }}>
       {children}
     </LanguageContext.Provider>
   );
@@ -989,9 +1015,14 @@ function LanguageProvider({ children }) {
 function useI18n() {
   const ctx = useContextI18n(LanguageContext);
   if (ctx) return ctx;
-  return { lang: 'vi', setLang: () => {}, t: (key, vars) => mttTranslate('vi', key, vars), onboarded: true, completeLangOnboarding: () => {} };
+  return { lang: 'vi', setLang: () => {}, t: (key, vars) => mttTranslate('vi', key, vars), onboarded: true, completeLangOnboarding: () => {}, theme: 'light', setTheme: () => {} };
 }
 
 document.documentElement.lang = mttReadStoredLang();
+document.documentElement.dataset.theme = mttReadTheme();
 
-Object.assign(window, { I18N, LanguageContext, LanguageProvider, useI18n });
+// Convenience hook — same context, theme-focused name for components that only
+// need theming. Both return { ...lang, theme, setTheme }.
+function useTheme() { return useI18n(); }
+
+Object.assign(window, { I18N, LanguageContext, LanguageProvider, useI18n, useTheme });
